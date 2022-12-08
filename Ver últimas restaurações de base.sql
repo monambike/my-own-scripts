@@ -22,5 +22,4 @@ FROM
     INNER JOIN
   [msdb].[dbo].[restorefile] AS [fileinfo] WITH(NOLOCK)
       ON [history].[restore_history_id] = [fileinfo].[restore_history_id]
-ORDER BY
-  [history].restore_date DESC
+ORDER BY [history].[restore_date] DESC

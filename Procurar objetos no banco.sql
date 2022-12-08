@@ -81,13 +81,13 @@ END
 BEGIN -- Result
     BEGIN
       SELECT
-          'ID do Objeto' = [object].[OBJECT_ID]
-        , 'Nome do Objeto' = [object].[NAME]
-        , 'Parâmetro do Objeto (Se Possui)' = [parameter].[NAME]
-        , 'Tipo do Objeto' = [object].[TYPE]
-        , 'Descrição do Tipo do Objeto' = [object].[TYPE_DESC]
-        , 'Data de Criação' = [object].[CREATE_DATE]
-        , 'Data de Modificação' = [object].[MODIFY_DATE]
+          'ID do Objeto' = [object].[object_id]
+        , 'Nome do Objeto' = [object].[name]
+        , 'Parâmetro do Objeto (Se Possui)' = [parameter].[name]
+        , 'Tipo do Objeto' = [object].[type]
+        , 'Descrição do Tipo do Objeto' = [object].[type_desc]
+        , 'Data de Criação' = [object].[create_date]
+        , 'Data de Modificação' = [object].[modify_date]
       FROM
         SYS.ALL_OBJECTS AS [object]
           FULL JOIN
@@ -95,15 +95,13 @@ BEGIN -- Result
             ON [object].OBJECT_ID = [parameter].OBJECT_ID
           FULL JOIN
         SYS.SYSTYPES AS [type]
-            ON [parameter].SYSTEM_TYPE_ID = [type].XTYPE
+            ON [parameter].SYSTEM_TYPE_ID = [type].[xtype]
       WHERE
-        (
-          (@ShowOnlyWithSameAccent = 0) AND
-            (@SearchForObjectName = '' OR [object].[NAME] COLLATE Latin1_general_CI_AI LIKE ('%' + @SearchForObjectName + '%') COLLATE Latin1_general_CI_AI)
+        ((@ShowOnlyWithSameAccent = 0 AND
+            @SearchForObjectName = '' OR [object].[name] COLLATE Latin1_general_CI_AI LIKE ('%' + @SearchForObjectName + '%') COLLATE Latin1_general_CI_AI)
           OR
-          (@ShowOnlyWithSameAccent = 1) AND
-            (@SearchForObjectName = '' OR [object].[NAME] LIKE ('%' + @SearchForObjectName + '%'))
-        )
+         (@ShowOnlyWithSameAccent = 1 AND
+            @SearchForObjectName = '' OR [object].[name] LIKE ('%' + @SearchForObjectName + '%')))
         AND ([object].TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
         AND (@SearchForObjectName = '' OR [object].NAME LIKE ('%' + @SearchForObjectName + '%'))
         AND (@SearchForParameterName = '' OR [parameter].NAME LIKE ('%' + @SearchForParameterName + '%'))
