@@ -5,32 +5,39 @@
   Escolha os filtros para poder filtrar pelos objetos no banco.
   
   LEGENDA
-  Filtrar por: Conteúdo de texto a ser filtrado.
-  Mostrar apenas: Caso definido como "1", só serão mostrados objetos do tipo informado.
-    
-  LEGENDA
   Parameter: É a coluna que contém o nome do parâmetro ou o que ele faz;
   Type: É o valor que pode ser inserido no parâmetro;
   Value: É onde você deve inserir o valor desejado.
+  
+
+  FILTROS SELECIONADOS
+
+  Mostrando objetos que apenas contenham no seu nome: "<Filtrar por: Nome do Objeto, VARCHAR, >"
+  Mostrando objetos que apenas contenham parâmetros com nome de: "<Filtrar por: Nome do Parâmetro, VARCHAR, >"
+  Mostrando objetos que sejam do tipo: "<Filtrar por: Nome do Tipo do Campo, VARCHAR, >"
+
+  Mostrando apenas.. (1 = Sim / 2 = Não)
+  Procedures:                  "<Mostrar Apenas: Procedures, BIT, 0>"
+  Extended Procedures:         "<Mostrar Apenas: Procedures Extendidas, BIT, 0>"
+  Funções:                     "<Mostrar Apenas: Funções, BIT, 0>"
+  Views:                       "<Mostrar Apenas: Views, BIT, 0>"
+  Tabelas:                     "<Mostrar Apenas: Tabelas, BIT, 0>"
+  Acentuação Igual a Filtrada: "<Mostrar Apenas: Com Acentuação Igual, BIT, 0>"
 
 *********************************************************************/
 
--- PRESSIONE [CTRL + SHIFT + M] PARA ESCOLHER OS FILTROS
--- PRESSIONE F5 APÓS ESCOLHER OS FILTROS PARA FILTRAR
 BEGIN -- Filters
   DECLARE
-
     @SearchForObjectName AS VARCHAR(MAX) = '<Filtrar por: Nome do Objeto, VARCHAR, >',
     @SearchForParameterName AS VARCHAR(MAX) = '<Filtrar por: Nome do Parâmetro, VARCHAR, >',
     @SearchForType AS VARCHAR(MAX) = '<Filtrar por: Nome do Tipo do Campo, VARCHAR, >',
 
-    -- Filtros de Switch
     @ShowProcedures AS BIT = <Mostrar Apenas: Procedures, BIT, 0>,
     @ShowExtendedProcedures AS BIT = <Mostrar Apenas: Procedures Extendidas, BIT, 0>,
     @ShowFunctions AS BIT = <Mostrar Apenas: Funções, BIT, 0>,
     @ShowViews AS BIT = <Mostrar Apenas: Views, BIT, 0>,
-    @ShowTables AS BIT = <Mostrar Apenas: Tabelas, BIT, 0>
-    @ShowOnlyWithSameAccent AS BIT = <Mostrar Apenas: Com Acentuação Igual, BIT, 0>,
+    @ShowTables AS BIT = <Mostrar Apenas: Tabelas, BIT, 0>,
+    @ShowOnlyWithSameAccent AS BIT = <Mostrar Apenas: Com Acentuação Igual, BIT, 0>
 END
 
 
