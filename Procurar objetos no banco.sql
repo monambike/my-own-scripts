@@ -22,12 +22,12 @@
   Que sejam do tipo:                "<Filtrar por: Nome do Tipo do Campo, VARCHAR, >"
 
   Mostrando apenas.. (1 = Sim / 2 = Não)
-  Procedures:                  "<Mostrar Apenas: Procedures, BIT, 0>"
-  Extended Procedures:         "<Mostrar Apenas: Procedures Extendidas, BIT, 0>"
-  Funções:                     "<Mostrar Apenas: Funções, BIT, 0>"
-  Views:                       "<Mostrar Apenas: Views, BIT, 0>"
-  Tabelas:                     "<Mostrar Apenas: Tabelas, BIT, 0>"
-  Acentuação Igual a Filtrada: "<Mostrar Apenas: Com Acentuação Igual, BIT, 0>"
+  Procedures:                       "<Mostrar Apenas: Procedures, BIT, 0>"
+  Extended Procedures:              "<Mostrar Apenas: Procedures Extendidas, BIT, 0>"
+  Funções:                          "<Mostrar Apenas: Funções, BIT, 0>"
+  Views:                            "<Mostrar Apenas: Views, BIT, 0>"
+  Tabelas:                          "<Mostrar Apenas: Tabelas, BIT, 0>"
+  Acentuação Igual a Filtrada:      "<Mostrar Apenas: Com Acentuação Igual, BIT, 0>"
 
 **************************************************************************************/
 
