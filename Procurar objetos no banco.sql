@@ -1,3 +1,22 @@
+/*********************************************************************
+
+  Pressione CTRL + SHIFT + M para definir os parâmetros e valores utilizado
+  nesse template.
+    
+  LEGENDA
+  Parameter: É a coluna que contém o nome do parâmetro ou o que ele faz;
+  Type: É o valor que pode ser inserido no parâmetro;
+  Value: É onde você deve inserir o valor desejado.
+
+  
+  ATENÇÃO
+  Esse Script colocará a base em modo de usuário único (desconectando 
+  todos os usuários e derrubando conexões) e alterará o seu nome.
+  
+  Ao rodar esse Script, você alterará o nome da base "<Nome da base antiga, VARCHAR, >" para "<Nome da base nova, VARCHAR, >".
+  
+*********************************************************************/
+
 -- PRESSIONE [CTRL + SHIFT + M] PARA ESCOLHER OS FILTROS
 -- PRESSIONE F5 APÓS ESCOLHER OS FILTROS PARA FILTRAR
 BEGIN -- Filters
