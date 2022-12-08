@@ -1,21 +1,26 @@
-/*********************************************************************
+/**************************************************************************************
 
   Pressione CTRL + SHIFT + M para definir os parâmetros e valores utilizado
-  nesse template.
-  Após definir o nome das bases, pressione F5 para atualizar. Ao rodar esse Script,
-  você alterará o nome da base "<Nome da base antiga, VARCHAR, >" para "<Nome da base nova, VARCHAR, >".
-    
-  LEGENDA
+  nesse template.    
   Parameter: É a coluna que contém o nome do parâmetro ou o que ele faz;
   Type: É o valor que pode ser inserido no parâmetro;
   Value: É onde você deve inserir o valor desejado.
 
+
+  DESCRIÇÃO
+  -------------------------------------------------------------------------------------
+  Esse Script tem como objetivo facilitar a alteração de nomes de bases de dados no
+  SqlServer.
+  Após definir o nome das bases, pressione F5 para atualizar. Ao rodar esse Script,
+  você alterará o nome da base "<Nome da base antiga, VARCHAR, >" para "<Nome da base nova, VARCHAR, >".
   
+
   ATENÇÃO
+  -------------------------------------------------------------------------------------
   Esse Script colocará a base em modo de usuário único (desconectando 
   todos os usuários e derrubando conexões) e alterará o seu nome.  
   
-*********************************************************************/
+**************************************************************************************/
 
 USE [master]
 GO

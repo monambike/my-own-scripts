@@ -1,3 +1,15 @@
+/**************************************************************************************
+
+  DESCRIÇÃO
+  -------------------------------------------------------------------------------------
+  Pressione "F5" para poder ver as últimas restaurações de bases realizadas no
+  servidor.
+
+**************************************************************************************/
+
+USE [master]
+GO
+
 SELECT  
     'Base de Destino da Restauração' = [history].[destination_database_name]
   , 'Horário de Restauração' = [history].[restore_date]
