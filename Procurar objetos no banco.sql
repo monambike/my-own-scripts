@@ -2,26 +2,23 @@
 
   Pressione CTRL + SHIFT + M para definir os parâmetros e valores utilizado
   nesse template.
+  Escolha os filtros para poder filtrar pelos objetos no banco.
+  
+  LEGENDA
+  Filtrar por: Conteúdo de texto a ser filtrado.
+  Mostrar apenas: Caso definido como "1", só serão mostrados objetos do tipo informado.
     
   LEGENDA
   Parameter: É a coluna que contém o nome do parâmetro ou o que ele faz;
   Type: É o valor que pode ser inserido no parâmetro;
   Value: É onde você deve inserir o valor desejado.
 
-  
-  ATENÇÃO
-  Esse Script colocará a base em modo de usuário único (desconectando 
-  todos os usuários e derrubando conexões) e alterará o seu nome.
-  
-  Ao rodar esse Script, você alterará o nome da base "<Nome da base antiga, VARCHAR, >" para "<Nome da base nova, VARCHAR, >".
-  
 *********************************************************************/
 
 -- PRESSIONE [CTRL + SHIFT + M] PARA ESCOLHER OS FILTROS
 -- PRESSIONE F5 APÓS ESCOLHER OS FILTROS PARA FILTRAR
 BEGIN -- Filters
   DECLARE
-    @MatchAccents AS BIT = <Considerar: Acentuação, BIT, 0>,
 
     @SearchForObjectName AS VARCHAR(MAX) = '<Filtrar por: Nome do Objeto, VARCHAR, >',
     @SearchForParameterName AS VARCHAR(MAX) = '<Filtrar por: Nome do Parâmetro, VARCHAR, >',
@@ -33,6 +30,7 @@ BEGIN -- Filters
     @ShowFunctions AS BIT = <Mostrar Apenas: Funções, BIT, 0>,
     @ShowViews AS BIT = <Mostrar Apenas: Views, BIT, 0>,
     @ShowTables AS BIT = <Mostrar Apenas: Tabelas, BIT, 0>
+    @ShowOnlyWithSameAccent AS BIT = <Mostrar Apenas: Com Acentuação Igual, BIT, 0>,
 END
 
 
@@ -87,10 +85,10 @@ BEGIN -- Result
             ON b.SYSTEM_TYPE_ID = c.XTYPE
       WHERE
         (
-          (@MatchAccents = 0) AND
+          (@ShowOnlyWithSameAccent = 0) AND
             (@SearchForObjectName = '' OR a.NAME COLLATE Latin1_general_CI_AI LIKE ('%' + @SearchForObjectName + '%') COLLATE Latin1_general_CI_AI)
           OR
-          (@MatchAccents = 1) AND
+          (@ShowOnlyWithSameAccent = 1) AND
             (@SearchForObjectName = '' OR a.NAME LIKE ('%' + @SearchForObjectName + '%'))
         )
         AND (a.TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
