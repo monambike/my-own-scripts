@@ -20,6 +20,7 @@
   Contenham no seu nome:            "<Filtrar por: Nome do Objeto, VARCHAR, >"
   Contenham parâmetros com nome de: "<Filtrar por: Nome do Parâmetro, VARCHAR, >"
   Que sejam do tipo:                "<Filtrar por: Nome do Tipo do Campo, VARCHAR, >"
+  Contenham no seu nome de coluna:  "<Filtrar por: Nome de Coluna, VARCHAR, >"
 
   Mostrando apenas.. (1 = Sim / 2 = Não)
   Procedures:                       "<Mostrar Apenas: Procedures, BIT, 0>"
@@ -37,6 +38,7 @@ BEGIN -- Filters
       @SearchForObjectName AS VARCHAR(MAX) = '<Filtrar por: Nome do Objeto, VARCHAR, >'
     , @SearchForParameterName AS VARCHAR(MAX) = '<Filtrar por: Nome do Parâmetro, VARCHAR, >'
     , @SearchForType AS VARCHAR(MAX) = '<Filtrar por: Nome do Tipo do Campo, VARCHAR, >'
+    , @SearchForColumnName AS VARCHAR(MAX) = '<Filtrar por: Nome de Coluna, VARCHAR, >'
     
     , @ShowProcedures AS BIT = <Mostrar Apenas: Procedures, BIT, 0>
     , @ShowExtendedProcedures AS BIT = <Mostrar Apenas: Procedures Extendidas, BIT, 0>
@@ -60,11 +62,11 @@ BEGIN -- Validations
   )
 
   -- Validação de filtros de switch
-  IF (@ShowProcedures = 0 AND
-      @ShowExtendedProcedures  = 0 AND
-      @ShowFunctions  = 0 AND
-      @ShowViews = 0 AND
-      @ShowTables  = 0)
+  IF (@ShowProcedures = 0
+  AND @ShowExtendedProcedures  = 0
+  AND @ShowFunctions  = 0
+  AND @ShowViews = 0
+  AND @ShowTables  = 0)
     INSERT #Temp_SelectedObjectTypes VALUES ('P'), ('X'), ('FN'), ('AF'), ('IF'), ('TF'), ('V'), ('U')
   IF @ShowProcedures = 1
     INSERT #Temp_SelectedObjectTypes VALUES ('P')
@@ -79,32 +81,35 @@ BEGIN -- Validations
 END
 
 BEGIN -- Result
-    BEGIN
-      SELECT
-          'ID do Objeto' = [object].[object_id]
-        , 'Nome do Objeto' = [object].[name]
-        , 'Parâmetro do Objeto (Se Possui)' = [parameter].[name]
-        , 'Tipo do Objeto' = [object].[type]
-        , 'Descrição do Tipo do Objeto' = [object].[type_desc]
-        , 'Data de Criação' = [object].[create_date]
-        , 'Data de Modificação' = [object].[modify_date]
-      FROM
-        SYS.ALL_OBJECTS AS [object]
-          FULL JOIN
-        SYS.PARAMETERS AS [parameter]
-            ON [object].OBJECT_ID = [parameter].OBJECT_ID
-          FULL JOIN
-        SYS.SYSTYPES AS [type]
-            ON [parameter].SYSTEM_TYPE_ID = [type].[xtype]
-      WHERE
-        ((@ShowOnlyWithSameAccent = 0 AND
-            @SearchForObjectName = '' OR [object].[name] COLLATE Latin1_general_CI_AI LIKE ('%' + @SearchForObjectName + '%') COLLATE Latin1_general_CI_AI)
-          OR
-         (@ShowOnlyWithSameAccent = 1 AND
-            @SearchForObjectName = '' OR [object].[name] LIKE ('%' + @SearchForObjectName + '%')))
-        AND ([object].TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
-        AND (@SearchForObjectName = '' OR [object].NAME LIKE ('%' + @SearchForObjectName + '%'))
-        AND (@SearchForParameterName = '' OR [parameter].NAME LIKE ('%' + @SearchForParameterName + '%'))
-        AND (@SearchForType = '' OR [type].NAME LIKE ('%' + @SearchForType + '%'))
-    END
+    SELECT
+        'ID do Objeto'                      = [object].[object_id]
+      , 'Nome do Objeto'                    = [object].[name]
+      , 'Parâmetro do Objeto (Se Possui)'   = [parameter].[name]
+      , 'Nome da Coluna (Se Objeto Possui)' = [column].[name]
+      , 'Tipo do Objeto'                    = [object].[type]
+      , 'Descrição do Tipo do Objeto'       = [object].[type_desc]
+      , 'Data de Criação'                   = [object].[create_date]
+      , 'Data de Modificação'               = [object].[modify_date]
+    FROM
+      [sys].[all_objects] AS [object]
+        FULL JOIN
+      [sys].[parameters] AS [parameter]
+          ON [object].[object_id] = [parameter].[object_id]
+        FULL JOIN
+      [sys].[systypes] AS [type]
+          ON [parameter].[system_type_id] = [type].[xtype]
+        FULL JOIN
+      [sys].[all_columns] AS [column]
+          ON [object].[object_id] = [column].[object_id]
+    WHERE
+      ((@ShowOnlyWithSameAccent = 0 AND
+          @SearchForObjectName = '' OR [object].[name] COLLATE Latin1_general_CI_AI LIKE ('%' + @SearchForObjectName + '%') COLLATE Latin1_general_CI_AI)
+        OR
+        (@ShowOnlyWithSameAccent = 1 AND
+          @SearchForObjectName = '' OR [object].[name] LIKE ('%' + @SearchForObjectName + '%')))
+      AND ([object].TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
+      AND (@SearchForObjectName = '' OR [object].NAME LIKE ('%' + @SearchForObjectName + '%'))
+      AND (@SearchForParameterName = '' OR [parameter].NAME LIKE ('%' + @SearchForParameterName + '%'))
+      AND (@SearchForType = '' OR [type].NAME LIKE ('%' + @SearchForType + '%'))
+      AND (@SearchForColumnName = '' OR [column].[name] LIKE ('%' + @SearchForColumnName + '%'))
 END
