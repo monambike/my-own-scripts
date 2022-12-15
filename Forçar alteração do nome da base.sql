@@ -22,8 +22,7 @@
   
 **************************************************************************************/
 
-USE [master]
-GO
+USE [master] GO
 
 -- Desconecta todos que estão conectados na base permitindo com que apenas você fique conectado
 ALTER DATABASE <Nome da base antiga, VARCHAR, > SET SINGLE_USER WITH ROLLBACK IMMEDIATE

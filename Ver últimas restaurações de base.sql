@@ -7,19 +7,18 @@
 
 **************************************************************************************/
 
-USE [master]
-GO
+USE [master] GO
 
 SELECT  
-    'Base de Destino da Restauração' = [history].[destination_database_name]
-  , 'Horário de Restauração' = [history].[restore_date]
-  , 'Usuário que restaurou a base' = [history].[user_name]
-  , 'Substituir os Dados da Base Existente' = [history].[replace]
-  , 'Drive de Restauração' = [fileinfo].destination_phys_drive
-  , 'Caminho de Restauração' = [fileinfo].[destination_phys_name]
+    [history].[destination_database_name] AS [Base de Destino da Restauração]
+  , [history].[restore_date]              AS [Horário de Restauração]
+  , [history].[user_name]                 AS [Usuário que restaurou a base]
+  , [history].[replace]                   AS [Substituir os Dados da Base Existente]
+  , [fileinfo].destination_phys_drive     AS [Drive de Restauração]
+  , [fileinfo].[destination_phys_name]    AS [Caminho de Restauração]
 FROM
   [msdb].[dbo].[restorehistory] AS [history] WITH(NOLOCK)
-    INNER JOIN
-  [msdb].[dbo].[restorefile] AS [fileinfo] WITH(NOLOCK)
-      ON [history].[restore_history_id] = [fileinfo].[restore_history_id]
+  INNER JOIN
+  [msdb].[dbo].[restorefile]    AS [fileinfo] WITH(NOLOCK)
+    ON [history].[restore_history_id] = [fileinfo].[restore_history_id]
 ORDER BY [history].[restore_date] DESC

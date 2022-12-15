@@ -19,12 +19,11 @@
   Mostrando objetos que apenas..
   Contenham no seu nome:            "<Filtrar por: Nome do Objeto, VARCHAR, >"
   Contenham parâmetros com nome de: "<Filtrar por: Nome do Parâmetro, VARCHAR, >"
-  Que sejam do tipo:                "<Filtrar por: Nome do Tipo do Campo, VARCHAR, >"
+  Que sejam do tipo:                "<Filtrar por: Nome do Tipo, VARCHAR, >"
   Contenham no seu nome de coluna:  "<Filtrar por: Nome de Coluna, VARCHAR, >"
 
   Mostrando apenas.. (1 = Sim / 2 = Não)
   Procedures:                       "<Mostrar Apenas: Procedures, BIT, 0>"
-  Extended Procedures:              "<Mostrar Apenas: Procedures Extendidas, BIT, 0>"
   Funções:                          "<Mostrar Apenas: Funções, BIT, 0>"
   Views:                            "<Mostrar Apenas: Views, BIT, 0>"
   Tabelas:                          "<Mostrar Apenas: Tabelas, BIT, 0>"
@@ -33,83 +32,70 @@
 **************************************************************************************/
 
 
+-- FILTROS
+-- Filtros selecionados.
 BEGIN -- Filters
   DECLARE
-      @SearchForObjectName AS VARCHAR(MAX) = '<Filtrar por: Nome do Objeto, VARCHAR, >'
-    , @SearchForParameterName AS VARCHAR(MAX) = '<Filtrar por: Nome do Parâmetro, VARCHAR, >'
-    , @SearchForType AS VARCHAR(MAX) = '<Filtrar por: Nome do Tipo do Campo, VARCHAR, >'
-    , @SearchForColumnName AS VARCHAR(MAX) = '<Filtrar por: Nome de Coluna, VARCHAR, >'
-    
-    , @ShowProcedures AS BIT = <Mostrar Apenas: Procedures, BIT, 0>
-    , @ShowExtendedProcedures AS BIT = <Mostrar Apenas: Procedures Extendidas, BIT, 0>
-    , @ShowFunctions AS BIT = <Mostrar Apenas: Funções, BIT, 0>
-    , @ShowViews AS BIT = <Mostrar Apenas: Views, BIT, 0>
-    , @ShowTables AS BIT = <Mostrar Apenas: Tabelas, BIT, 0>
-    , @ShowOnlyWithSameAccent AS BIT = <Mostrar Apenas: Com Acentuação Igual, BIT, 0>
+      @FilterByObjectName    AS VARCHAR(MAX) = '<Filtrar por: Nome do Objeto, VARCHAR, >'
+    , @FilterByParameterName AS VARCHAR(MAX) = '<Filtrar por: Nome do Parâmetro, VARCHAR, >'
+    , @FilterByType          AS VARCHAR(MAX) = '<Filtrar por: Nome do Tipo, VARCHAR, >'
+    , @FilterByColumnName    AS VARCHAR(MAX) = '<Filtrar por: Nome de Coluna, VARCHAR, >'
+    -- Filtros selecionados de procura por tipo de objeto
+    , @FilterByProcedures         AS BIT = <Filtrar por: Procedures, BIT, 0>
+    , @FilterByFunctions          AS BIT = <Filtrar por: Funções, BIT, 0>
+    , @FilterByViews              AS BIT = <Filtrar por: Views, BIT, 0>
+    , @FilterByTables             AS BIT = <Filtrar por: Tabelas, BIT, 0>
+    , @FilterByOnlyWithSameAccent AS BIT = <Filtrar por: Nomes Com Acentuação Igual, BIT, 0>
 END
 
 
 BEGIN -- Validations
-  -- Criação da tabela temporária que conterá o conteúdo dos filtros de switch que serão realizados
+  -- Apaga a temporária caso já exista, e cria ela novamente
   IF EXISTS (SELECT * FROM TEMPDB.SYS.TABLES WHERE NAME LIKE ('#Temp_SelectedObjectTypes%'))
   BEGIN
     EXEC ('DROP TABLE #Temp_SelectedObjectTypes')
   END
-  CREATE TABLE #Temp_SelectedObjectTypes(
-    ObjectType
-      NVARCHAR(2)
-      COLLATE Latin1_General_CI_AS_KS_WS
-  )
+  CREATE TABLE #Temp_SelectedObjectTypes ( ObjectType NVARCHAR(2) COLLATE Latin1_General_CI_AS_KS_WS )
 
-  -- Validação de filtros de switch
-  IF (@ShowProcedures = 0
-  AND @ShowExtendedProcedures  = 0
-  AND @ShowFunctions  = 0
-  AND @ShowViews = 0
-  AND @ShowTables  = 0)
-    INSERT #Temp_SelectedObjectTypes VALUES ('P'), ('X'), ('FN'), ('AF'), ('IF'), ('TF'), ('V'), ('U')
-  IF @ShowProcedures = 1
-    INSERT #Temp_SelectedObjectTypes VALUES ('P')
-  IF @ShowExtendedProcedures = 1
-    INSERT #Temp_SelectedObjectTypes VALUES ('X')
-  IF @ShowFunctions = 1
+  -- Preenche a temporária com os filtros selecionados de procura por
+  -- tipo de objeto
+  IF @FilterByProcedures = 1
+    INSERT #Temp_SelectedObjectTypes VALUES ('P'), ('X')
+  IF @FilterByFunctions = 1
     INSERT #Temp_SelectedObjectTypes VALUES ('FN'), ('AF'), ('IF'), ('TF')
-  IF @ShowViews = 1
+  IF @FilterByViews = 1
     INSERT #Temp_SelectedObjectTypes VALUES ('V')
-  IF @ShowTables = 1
+  IF @FilterByTables = 1
     INSERT #Temp_SelectedObjectTypes VALUES ('U')
 END
 
-BEGIN -- Result
+BEGIN
     SELECT
-        'ID do Objeto'                      = [object].[object_id]
-      , 'Nome do Objeto'                    = [object].[name]
-      , 'Parâmetro do Objeto (Se Possui)'   = [parameter].[name]
-      , 'Nome da Coluna (Se Objeto Possui)' = [column].[name]
-      , 'Tipo do Objeto'                    = [object].[type]
-      , 'Descrição do Tipo do Objeto'       = [object].[type_desc]
-      , 'Data de Criação'                   = [object].[create_date]
-      , 'Data de Modificação'               = [object].[modify_date]
+        [object].[object_id]                AS [ID do Objeto]
+      , [object].[name]                     AS [Nome do Objeto]
+      , [parameter].[name]                  AS [Parâmetro do Objeto (Se Possui)]
+      , [column].[name]                     AS [Nome da Coluna (Se Objeto Possui)]
+      , [object].[type]                     AS [Tipo do Objeto]
+      , [object].[type_desc]                AS [Descrição do Tipo do Objeto]
+      , [object].[create_date]              AS [Data de Criação]
+      , [object].[modify_date]              AS [Data de Modificação]
     FROM
       [sys].[all_objects] AS [object]
-        FULL JOIN
-      [sys].[parameters] AS [parameter]
-          ON [object].[object_id] = [parameter].[object_id]
-        FULL JOIN
-      [sys].[systypes] AS [type]
-          ON [parameter].[system_type_id] = [type].[xtype]
-        FULL JOIN
-      [sys].[all_columns] AS [column]
-          ON [object].[object_id] = [column].[object_id]
+      FULL JOIN
+      [sys].[parameters] AS [parameter] ON [object].[object_id] = [parameter].[object_id]
+      FULL JOIN
+      [sys].[systypes] AS [type] ON [parameter].[system_type_id] = [type].[xtype]
+      LEFT JOIN
+      [sys].[all_columns] AS [column] ON [object].[object_id] = [column].[object_id]
     WHERE
-      ((@ShowOnlyWithSameAccent = 0 AND
-          @SearchForObjectName = '' OR [object].[name] COLLATE Latin1_general_CI_AI LIKE ('%' + @SearchForObjectName + '%') COLLATE Latin1_general_CI_AI)
+      ((@FilterByOnlyWithSameAccent = 0 AND
+          @FilterByObjectName = '' OR [object].[name] COLLATE Latin1_general_CI_AI LIKE ('%' + @FilterByObjectName + '%') COLLATE Latin1_general_CI_AI)
         OR
-        (@ShowOnlyWithSameAccent = 1 AND
-          @SearchForObjectName = '' OR [object].[name] LIKE ('%' + @SearchForObjectName + '%')))
-      AND ([object].TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
-      AND (@SearchForObjectName = '' OR [object].NAME LIKE ('%' + @SearchForObjectName + '%'))
-      AND (@SearchForParameterName = '' OR [parameter].NAME LIKE ('%' + @SearchForParameterName + '%'))
-      AND (@SearchForType = '' OR [type].NAME LIKE ('%' + @SearchForType + '%'))
-      AND (@SearchForColumnName = '' OR [column].[name] LIKE ('%' + @SearchForColumnName + '%'))
+        (@FilterByOnlyWithSameAccent = 1 AND
+          @FilterByObjectName = '' OR [object].[name] LIKE ('%' + @FilterByObjectName + '%')))
+      AND (NOT EXISTS (SELECT ObjectType FROM #Temp_SelectedObjectTypes) OR [object].TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
+      AND (@FilterByObjectName = '' OR [object].NAME LIKE ('%' + @FilterByObjectName + '%'))
+      AND (@FilterByParameterName = '' OR [parameter].NAME LIKE ('%' + @FilterByParameterName + '%'))
+      AND (@FilterByType = '' OR [type].NAME LIKE ('%' + @FilterByType + '%'))
+      AND (@FilterByColumnName = '' OR [column].[name] LIKE ('%' + @FilterByColumnName + '%'))
 END
