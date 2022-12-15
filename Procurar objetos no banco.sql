@@ -50,12 +50,10 @@ END
 
 
 BEGIN -- Validations
-  -- Apaga a temporária caso já exista, e cria ela novamente
-  IF EXISTS (SELECT * FROM TEMPDB.SYS.TABLES WHERE NAME LIKE ('#Temp_SelectedObjectTypes%'))
-  BEGIN
-    EXEC ('DROP TABLE #Temp_SelectedObjectTypes')
-  END
-  CREATE TABLE #Temp_SelectedObjectTypes ( ObjectType NVARCHAR(2) COLLATE Latin1_General_CI_AS_KS_WS )
+  -- Se a tabela não existe, cria ela
+  IF OBJECT_ID('tempdb..#Temp_SelectedObjectTypes') IS NULL
+    CREATE TABLE #Temp_SelectedObjectTypes ( ObjectType NVARCHAR(2) COLLATE Latin1_General_CI_AS_KS_WS )
+  TRUNCATE TABLE #Temp_SelectedObjectTypes
 
   -- Preenche a temporária com os filtros selecionados de procura por
   -- tipo de objeto

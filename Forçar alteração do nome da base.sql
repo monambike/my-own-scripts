@@ -1,42 +1,36 @@
 /**************************************************************************************
 
-  Pressione CTRL + SHIFT + M para definir os parâmetros e valores utilizado
-  nesse template.    
-  Parameter: É a coluna que contém o nome do parâmetro ou o que ele faz;
-  Type: É o valor que pode ser inserido no parâmetro;
-  Value: É onde você deve inserir o valor desejado.
+  Press CTRL + SHIFT + M to define parameters and values to be used on this
+  current template.
 
-
-  DESCRIÇÃO
+  DESCRIPTION
   -------------------------------------------------------------------------------------
-  Esse Script tem como objetivo facilitar a alteração de nomes de bases de dados no
-  SqlServer.
-  Após definir o nome das bases, pressione F5 para atualizar. Ao rodar esse Script,
-  você alterará o nome da base "<Nome da base antiga, VARCHAR, >" para "<Nome da base nova, VARCHAR, >".
+  This Scripts has as objective make easier database name update on SQL Server.
+  After defining both databases names press F5 to update it. After running this Script
+  you will update the name from database "<Old database name, VARCHAR, >" to "<New database name, VARCHAR, >".
   
 
-  ATENÇÃO
+  WARNING
   -------------------------------------------------------------------------------------
-  Esse Script colocará a base em modo de usuário único (desconectando 
-  todos os usuários e derrubando conexões) e alterará o seu nome.  
-  
+  This Script will put the database in "Single User Mode" (disconnecting all other users
+  and dropping all connections) and update its name.
+
 **************************************************************************************/
 
 USE [master] GO
 
--- Desconecta todos que estão conectados na base permitindo com que apenas você fique conectado
-ALTER DATABASE <Nome da base antiga, VARCHAR, > SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-PRINT ('Todos os usuários, exceto você, foram desconectados da base "<Nome da base antiga, VARCHAR, >". No
-        momento você é o único ' + CHAR(13) + CHAR(10) + 'usuário conectado e outros usuários não poderão
-        se conectar até o acesso ser liberado' + CHAR(13) + CHAR(10) + 'novamente.' + CHAR(13) + CHAR(10))
+-- Disconnect everyone that are connected on the database just allowing you to be connected
+ALTER DATABASE <Old database name, VARCHAR, > SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+PRINT ('All users (except you) where disconnected from the database "<Old database name, VARCHAR, >".'
++ CHAR(13) + CHAR(10) + 'At the moment you are the only user connected and all the other users will not be able to connect until the access be released again.')
 GO
 
--- Altera o nome da base
-EXEC master..sp_renamedb  <Nome da base antiga, VARCHAR, >,  <Nome da base nova, VARCHAR, >
-PRINT CHAR(13) + CHAR(10) + 'A base "<Nome da base antiga, VARCHAR, >" teve seu nome alterado para "<Nome da base nova, VARCHAR, >".'
+-- Update database name
+EXEC master..sp_renamedb  <Old database name, VARCHAR, >,  <New database name, VARCHAR, >
+PRINT CHAR(13) + CHAR(10) + 'The database "<Old database name, VARCHAR, >" has been renamed to "<New database name, VARCHAR, >".'
 GO
 
--- Libera o acesso da base para outros usuários poderem acessar
-ALTER DATABASE <Nome da base nova, VARCHAR, > SET MULTI_USER
-PRINT CHAR(13) + CHAR(10) + 'O acesso à base foi liberado. Novos usuários poderão se conectar novamente à base.'
+-- Releases database access so that way other users can access it again
+ALTER DATABASE <New database name, VARCHAR, > SET MULTI_USER
+PRINT CHAR(13) + CHAR(10) + 'The database "<New database name, VARCHAR, >" is at "Multi User Mode". Other users will be able to connect to it again.'
 GO
