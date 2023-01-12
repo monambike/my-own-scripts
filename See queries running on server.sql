@@ -25,7 +25,7 @@ SELECT
   , [request].[command]              AS [Command Type]
   , FORMAT([request].[start_time], 'yyyy/MM/dd HH:mm:ss') AS [Query Start Time]
   , [request].[request_id]
-  , [request].transaction_id
+  , [request].[transaction_id]
 FROM
   sys.dm_exec_requests                          AS [request]
   CROSS APPLY
