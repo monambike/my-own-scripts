@@ -11,16 +11,14 @@
   database.
 
   You can view a SQL Server object size using following command too:
-  EXEC sp_spaceused '<Object Name, , >';
+  EXEC sp_spaceused '<Filter by: Object Name, , >';
 
 
   SELECTED FILTERS
   -------------------------------------------------------------------------------------
   Showing objects that..
   Have as name:                     "<Filter by: Object Name, , >"
-  Has as parameter with the name:   "<Filter by: Parameter Name, , >"
   That are from the type:           "<Filter by: Type Name, , >"
-  Contenham no seu column Name:     "<Filter by: Column Name, , >"
 
   Showing only.. (0 = No / 1 = Yes)
   Procedures:                       "<Show only: Procedures, 0 - Not Show / 1 - Show, 0>"
@@ -33,9 +31,7 @@
 
 DECLARE
     @FilterByObjectName                  AS VARCHAR(MAX) = '<Filter by: Object Name, VARCHAR, >'
-  , @FilterByParameterName               AS VARCHAR(MAX) = '<Filter by: Parameter Name, VARCHAR, >'
   , @FilterByType                        AS VARCHAR(MAX) = '<Filter by: Type Name, VARCHAR, >'
-  , @FilterByColumnName                  AS VARCHAR(MAX) = '<Filter by: Column Name, VARCHAR, >'
     
   , @OnlyShowProcedures                  AS BIT          = <Show only: Procedures, BIT, 0>
   , @OnlyShowViews                       AS BIT          = <Show only: Views, BIT, 0>
@@ -67,30 +63,32 @@ END
 
 
 SELECT
-    [object].[object_id]                AS [ID do Objeto]
-  , [object].[name]                     AS [Object Name]
-  , [parameter].[name]                  AS [Parâmetro do Objeto (Se Possui)]
-  , [column].[name]                     AS [Nome da Coluna (Se Objeto Possui)]
-  , [object].[type]                     AS [Tipo do Objeto]
-  , [object].[type_desc]                AS [Descrição do Tipo do Objeto]
-  , [object].[create_date]              AS [Data de Criação]
-  , [object].[modify_date]              AS [Data de Modificação]
+    [object].[object_id]                AS [ObjectID]
+  , [object].[name]                     AS [Name]
+  , [parameter].[name]                  AS [Parameter Name]
+  , [column].[name]                     AS [Column Name]
+  , [object].[type]                     AS [Type]
+  , [object].[type_desc]                AS [Type Description]
+  , [object].[create_date]              AS [Creation Date]
+  , [object].[modify_date]              AS [Modify Date]
 FROM
   [sys].[all_objects] AS [object]
   LEFT JOIN
   [sys].[parameters]  AS [parameter] ON [parameter].[object_id] = [object].[object_id]
-  FULL JOIN
+  LEFT JOIN
   [sys].[systypes]    AS [type]      ON [type].[xtype] = [parameter].[system_type_id]
   LEFT JOIN
   [sys].[all_columns] AS [column]    ON [column].[object_id] = [object].[object_id]
 WHERE
   ((@OnlyShowObjectsWithSameAccentOnName = 0 AND
-      @FilterByObjectName = '' OR [object].[name] COLLATE Latin1_general_CI_AI LIKE ('%' + @FilterByObjectName + '%') COLLATE Latin1_general_CI_AI)
+         @FilterByObjectName = '' OR [object].[name]    COLLATE Latin1_general_CI_AI LIKE ('%' + @FilterByObjectName + '%') COLLATE Latin1_general_CI_AI
+      OR @FilterByObjectName = '' OR [parameter].[name] COLLATE Latin1_general_CI_AI LIKE ('%' + @FilterByObjectName + '%') COLLATE Latin1_general_CI_AI
+      OR @FilterByObjectName = '' OR [column].[name]    COLLATE Latin1_general_CI_AI LIKE ('%' + @FilterByObjectName + '%') COLLATE Latin1_general_CI_AI)
     OR
    (@OnlyShowObjectsWithSameAccentOnName = 1 AND
-      @FilterByObjectName = '' OR [object].[name] LIKE ('%' + @FilterByObjectName + '%')))
+         @FilterByObjectName = '' OR [object].[name]    LIKE ('%' + @FilterByObjectName + '%')
+      OR @FilterByObjectName = '' OR [parameter].[name] LIKE ('%' + @FilterByObjectName + '%')
+      OR @FilterByObjectName = '' OR [column].[name]    LIKE ('%' + @FilterByObjectName + '%')))
   AND (NOT EXISTS (SELECT ObjectType FROM #Temp_SelectedObjectTypes) OR [object].TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
-  AND (@FilterByObjectName    = '' OR [object].NAME LIKE ('%' + @FilterByObjectName + '%'))
-  AND (@FilterByParameterName = '' OR [parameter].NAME LIKE ('%' + @FilterByParameterName + '%'))
   AND (@FilterByType          = '' OR [type].NAME LIKE ('%' + @FilterByType + '%'))
-  AND (@FilterByColumnName    = '' OR [column].[name] LIKE ('%' + @FilterByColumnName + '%'))
+ORDER BY [Name]
