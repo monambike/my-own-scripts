@@ -28,7 +28,7 @@ SELECT [database_id], COUNT(*) FROM sys.dm_os_buffer_descriptors GROUP BY DB_NAM
 SELECT
     [database].[database_id]              AS [DatabaseID]
   , [database].[name]                     AS [Database Name]
-  , [database].[collation_name]           AS [Compatibility Name]
+  , [database].[collation_name]           AS [Collation Name]
   , [database].[compatibility_level]      AS [Compatibility Level]
   , [database].[state_desc]               AS [Online State]
   , [database].[create_date]              AS [Creation Date]
