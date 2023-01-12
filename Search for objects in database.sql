@@ -10,6 +10,9 @@
   After choosing all parameters, press [F5] to be able to filter by objects in current
   database.
 
+  You can view a SQL Server object size using following command too:
+  EXEC sp_spaceused '<Object Name, , >';
+
 
   SELECTED FILTERS
   -------------------------------------------------------------------------------------

@@ -6,6 +6,19 @@
   check last time database was accessed or used, collation, compatibility level, online state
   and others.
 
+
+  COMMANDS FOR CLEARING CACHE
+  -------------------------------------------------------------------------------------
+  Run all the following commands to clear all Databases cache.
+
+  DBCC FREEPROCCACHE
+  GO
+  DBCC DROPCLEANBUFFERS
+  GO
+  DBCC FREESYSTEMCACHE ('ALL')
+  GO
+  DBCC FREESESSIONCACHE 
+
 **************************************************************************************/
 
 DECLARE @Table TABLE([database_id] INT, [cached_page_count] INT)
