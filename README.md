@@ -1,6 +1,6 @@
 # My Own Scripts
 
-Scripts that I made to help myself with my journey with SQL Server with:
+Scripts that I made to help with my journey with SQL Server with:
 
 :mag_right: Finding SQL Server objects such as views, procedures, functions, tables, columns and parameters by their name or type;
 
