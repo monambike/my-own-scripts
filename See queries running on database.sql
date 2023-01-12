@@ -59,6 +59,7 @@ SELECT
           WHEN [process].[status] = 'runnable'              THEN 'The task in the session is in the runnable queue of a scheduler while waiting to get a time quantum.'
           WHEN [process].[status] = 'spinloop'              THEN 'The task in the session is waiting for a spinlock to become free.'
           WHEN [process].[status] = 'suspended'             THEN 'The session is waiting for an event, such as I/O, to complete.'
+          ELSE ''
         END)
     AS [Process Status]
   -- (End)   Process Status
@@ -74,6 +75,7 @@ SELECT
           WHEN [process].[blocked] = -2 THEN ' - The blocking resource is owned by an orphaned distributed transaction.'
           WHEN [process].[blocked] = -3 THEN ' - The blocking resource is owned by a deferred recovery transaction.'
           WHEN [process].[blocked] = -4 THEN ' - Session ID of the blocking latch owner could not be determined due to internal latch state transitions.'
+          ELSE ''
         END)
     AS [Session Blocking Request]
   , [process].[memusage]      AS [Memory Usage]          -- Number of pages in the procedure cache that are currently allocated to this process. A negative number indicates that the process is freeing memory allocated by another process.

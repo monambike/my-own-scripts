@@ -9,16 +9,23 @@
 
 **************************************************************************************/
 
+DECLARE
+    @TableName  AS VARCHAR(MAX) = '<Table Name, VARCHAR(MAX), >'
+  , @ColumnName AS VARCHAR(MAX) = '<Column Name, VARCHAR(MAX), >'
+  , @TypeName   AS VARCHAR(MAX) = '<Type Name, VARCHAR(MAX), >'
+
 SELECT
-  [column].[name]        AS [Field],
-  [type].[name]          AS [Type],
-  (CASE
-    WHEN [type].[name] IN ('CHAR', 'NTEXT', 'TEXT', 'VARCHAR') THEN CONVERT(VARCHAR, [column].MAX_LENGTH)
-    WHEN [type].[name] IN ('NCHAR', 'NVARCHAR') THEN CONVERT(VARCHAR, [column].MAX_LENGTH / 2)
-    ELSE ''
-  END)                   AS [Size],
-  [column].[is_nullable] AS [Nullable],
-  [table].[name]         AS [TableName]
+    [table].[name]         AS [TableName]
+  , [column].[name]        AS [Field]
+  , [type].[name] 
+    + (CASE
+         WHEN [type].[name] IN ('CHAR', 'NTEXT', 'TEXT', 'VARCHAR') THEN '(' + CONVERT(VARCHAR, [column].[max_length])     + ')'
+         WHEN [type].[name] IN ('NCHAR', 'NVARCHAR')                THEN '(' + CONVERT(VARCHAR, [column].[max_length] / 2) + ')'
+         ELSE ''
+       END) AS [Type Name]
+  , CAST([column].[max_length]     AS VARCHAR) + 'bytes' AS [Size (Bytes)]
+  , CAST([column].[max_length] * 8 AS VARCHAR) + 'bits'  AS [Size (Bits)]
+  , [column].[is_nullable] AS [Nullable]
 FROM
   sys.columns AS [column]
   INNER JOIN
@@ -26,5 +33,6 @@ FROM
   INNER JOIN
   sys.types   AS [type]  ON [column].[user_type_id] = [type].[user_type_id]
 WHERE
-  [table].[name] = '<Table Name, , >'
-  AND [column].[name] LIKE '<Column Name, , >'
+      (@TableName  = '' OR [table].[name]  LIKE '%' + @TableName  + '%')
+  AND (@ColumnName = '' OR [column].[name] LIKE '%' + @ColumnName + '%')
+  AND (@TypeName   = '' OR [type].[name]   LIKE '%' + @TypeName   + '%')
