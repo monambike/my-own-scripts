@@ -56,3 +56,17 @@ GROUP BY
 ORDER BY
     CASE WHEN [database].[name] IN ('master', 'tempdb', 'model', 'msdb') THEN 0 ELSE 1 END
   , [database].[name]
+
+SELECT  
+    [history].[destination_database_name] AS [Restora Database Destination]
+  , [history].[restore_date]              AS [Restore Date]
+  , [history].[user_name]                 AS [User Who Restored the Database]
+  , [history].[replace]                   AS [Replace Database Data]
+  , [fileinfo].destination_phys_drive     AS [Restore Drive]
+  , [fileinfo].[destination_phys_name]    AS [Restore Path]
+FROM
+  [msdb].[dbo].[restorehistory] AS [history]
+  INNER JOIN
+  [msdb].[dbo].[restorefile]    AS [fileinfo] ON [history].[restore_history_id] = [fileinfo].[restore_history_id]
+ORDER BY [history].[restore_date] DESC
+
