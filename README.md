@@ -1,4 +1,4 @@
-# My Own Scripts
+# My Own Scripts :file_cabinet:
 
 Scripts that I made to help with my journey with SQL Server with:
 
