@@ -29,9 +29,9 @@ SELECT
 FROM
   sys.columns AS [column]
   INNER JOIN
-  sys.tables  AS [table] ON [column].[object_id]    = [table].[object_id]
+  sys.tables  AS [table] ON [table].[object_id]     = [column].[object_id]
   INNER JOIN
-  sys.types   AS [type]  ON [column].[user_type_id] = [type].[user_type_id]
+  sys.types   AS [type]  ON [type].[user_type_id]   = [column].[user_type_id]
 WHERE
       (@TableName  = '' OR [table].[name]  LIKE '%' + @TableName  + '%')
   AND (@ColumnName = '' OR [column].[name] LIKE '%' + @ColumnName + '%')
