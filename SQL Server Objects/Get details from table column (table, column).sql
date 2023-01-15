@@ -36,14 +36,56 @@ WHERE
       (@TableName  = '' OR [table].[name]  LIKE '%' + @TableName  + '%')
   AND (@ColumnName = '' OR [column].[name] LIKE '%' + @ColumnName + '%')
   AND (@TypeName   = '' OR [type].[name]   LIKE '%' + @TypeName   + '%')
-  
 
+
+SELECT * FROM
+(
   SELECT
-  *
-FROM
-  INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+      [table].[name]                   AS [Table Name]
+    , [pk_ak_constraint].[name]        AS [Constraint Name]
+    , [pk_ak_constraint].[create_date] AS [Constraint Create Date]
+    , [pk_ak_constraint].[modify_date] AS [Constraint Modify Date]
+  FROM
+    sys.tables              AS [table]
+    INNER JOIN
+    sys.key_constraints     AS [pk_ak_constraint] ON [pk_ak_constraint].[parent_object_id] = [table].[object_id]
+  UNION ALL
+  SELECT
+      [table].[name]                   AS [Table Name]
+    , [fk_constraint].[name]           AS [Foreign Key Constraint]
+    , [fk_constraint].[create_date]    AS [Constraint Create Date]
+    , [fk_constraint].[modify_date]    AS [Constraint Modify Date]
+  FROM
+    sys.tables              AS [table]
+    INNER JOIN
+    sys.foreign_keys        AS [fk_constraint]    ON [fk_constraint].[parent_object_id]    = [table].[object_id]
+  UNION ALL
+  SELECT
+      [table].[name]                   AS [Table Name]
+    , [ck_constraint].[name]           AS [Foreign Key Constraint]
+    , [ck_constraint].[create_date]    AS [Constraint Create Date]
+    , [ck_constraint].[modify_date]    AS [Constraint Modify Date]
+  FROM
+    sys.tables              AS [table]
+    INNER JOIN
+    sys.check_constraints   AS [ck_constraint]    ON [ck_constraint].[parent_object_id]    = [table].[object_id]
+  UNION ALL
+  SELECT
+      [table].[name]                   AS [Table Name]
+    , [df_constraint].[name]           AS [Default Value Key Constraint]
+    , [df_constraint].[create_date]    AS [Constraint Create Date]
+    , [df_constraint].[modify_date]    AS [Constraint Modify Date]
+  FROM
+    sys.tables              AS [table]
+    INNER JOIN
+    sys.default_constraints AS [df_constraint]    ON [df_constraint].[parent_object_id]    = [table].[object_id]
+) AS [table_constraint]
 WHERE
-  TABLE_NAME NOT IN ('sysdiagrams')
+  [table_constraint].[Table Name] NOT IN ('sysdiagrams')
 ORDER BY
-    [TABLE_NAME]
-  , CASE CONSTRAINT_NAME LIKE 'PK_%' THEN 1 ELSE 0
+    [table_constraint].[Table Name]
+  , CASE
+      WHEN [table_constraint].[Constraint Name] LIKE 'PK_%' THEN 0
+      WHEN [table_constraint].[Constraint Name] LIKE 'FK_%' THEN 1
+      WHEN [table_constraint].[Constraint Name] LIKE 'AK_%' THEN 2
+    END
