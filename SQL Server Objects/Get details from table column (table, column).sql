@@ -36,3 +36,14 @@ WHERE
       (@TableName  = '' OR [table].[name]  LIKE '%' + @TableName  + '%')
   AND (@ColumnName = '' OR [column].[name] LIKE '%' + @ColumnName + '%')
   AND (@TypeName   = '' OR [type].[name]   LIKE '%' + @TypeName   + '%')
+  
+
+  SELECT
+  *
+FROM
+  INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+WHERE
+  TABLE_NAME NOT IN ('sysdiagrams')
+ORDER BY
+    [TABLE_NAME]
+  , CASE CONSTRAINT_NAME LIKE 'PK_%' THEN 1 ELSE 0

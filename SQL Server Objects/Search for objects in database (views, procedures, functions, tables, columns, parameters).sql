@@ -18,13 +18,13 @@
   -------------------------------------------------------------------------------------
   Showing objects that..
   Have as name:                     "<Filter by: Object Name, , >"
-  That are from the type:           "<Filter by: Type Name, , >"
+  That are from the type:           "<Filter by: Type Name  , , >"
 
   Showing only.. (0 = No / 1 = Yes)
-  Procedures:                       "<Show only: Procedures, 0 - Not Show / 1 - Show, 0>"
-  Views:                            "<Show only: Views, 0 - Not Show / 1 - Show, 0>"
-  Functions:                        "<Show only: Functions, 0 - Not Show / 1 - Show, 0>"
-  Tables:                           "<Show only: Tables, 0 - Not Show / 1 - Show, 0>"
+  Procedures:                       "<Show only: Procedures                          , 0 - Not Show / 1 - Show, 0>"
+  Views:                            "<Show only: Views                               , 0 - Not Show / 1 - Show, 0>"
+  Functions:                        "<Show only: Functions                           , 0 - Not Show / 1 - Show, 0>"
+  Tables:                           "<Show only: Tables                              , 0 - Not Show / 1 - Show, 0>"
   Objects with same accent on name: "<Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0>"
 
 **************************************************************************************/
@@ -33,11 +33,11 @@ DECLARE
     @FilterByObjectName                  AS VARCHAR(MAX) = '<Filter by: Object Name, VARCHAR, >'
   , @FilterByType                        AS VARCHAR(MAX) = '<Filter by: Type Name, VARCHAR, >'
     
-  , @OnlyShowProcedures                  AS BIT          = <Show only: Procedures, BIT, 0>
-  , @OnlyShowViews                       AS BIT          = <Show only: Views, BIT, 0>
-  , @OnlyShowFunctions                   AS BIT          = <Show only: Functions, BIT, 0>
-  , @OnlyShowTables                      AS BIT          = <Show only: Tables, BIT, 0>
-  , @OnlyShowObjectsWithSameAccentOnName AS BIT          = <Show only: Objects with the same accent on name, BIT, 0>
+  , @OnlyShowProcedures                  AS BIT          = <Show only: Procedures                          , 0 - Not Show / 1 - Show, 0, 0>
+  , @OnlyShowViews                       AS BIT          = <Show only: Views                               , 0 - Not Show / 1 - Show, 0, 0>
+  , @OnlyShowFunctions                   AS BIT          = <Show only: Functions                           , 0 - Not Show / 1 - Show, 0, 0>
+  , @OnlyShowTables                      AS BIT          = <Show only: Tables                              , 0 - Not Show / 1 - Show, 0, 0>
+  , @OnlyShowObjectsWithSameAccentOnName AS BIT          = <Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0, 0>
 
 -- VALIDATIONS
 ------------------------------------------------------------
@@ -72,13 +72,13 @@ SELECT
   , [object].[create_date]              AS [Creation Date]
   , [object].[modify_date]              AS [Modify Date]
 FROM
-  [sys].[all_objects] AS [object]
+  sys.all_objects AS [object]
   LEFT JOIN
-  [sys].[parameters]  AS [parameter] ON [parameter].[object_id] = [object].[object_id]
+  sys.parameters  AS [parameter] ON [parameter].[object_id] = [object].[object_id]
   LEFT JOIN
-  [sys].[systypes]    AS [type]      ON [type].[xtype] = [parameter].[system_type_id]
+  sys.systypes    AS [type]      ON [type].[xtype]          = [parameter].[system_type_id]
   LEFT JOIN
-  [sys].[all_columns] AS [column]    ON [column].[object_id] = [object].[object_id]
+  sys.all_columns AS [column]    ON [column].[object_id]    = [object].[object_id]
 WHERE
   ((@OnlyShowObjectsWithSameAccentOnName = 0 AND
          @FilterByObjectName = '' OR [object].[name]    COLLATE Latin1_general_CI_AI LIKE ('%' + @FilterByObjectName + '%') COLLATE Latin1_general_CI_AI
@@ -86,9 +86,9 @@ WHERE
       OR @FilterByObjectName = '' OR [column].[name]    COLLATE Latin1_general_CI_AI LIKE ('%' + @FilterByObjectName + '%') COLLATE Latin1_general_CI_AI)
     OR
    (@OnlyShowObjectsWithSameAccentOnName = 1 AND
-         @FilterByObjectName = '' OR [object].[name]    LIKE ('%' + @FilterByObjectName + '%')
-      OR @FilterByObjectName = '' OR [parameter].[name] LIKE ('%' + @FilterByObjectName + '%')
-      OR @FilterByObjectName = '' OR [column].[name]    LIKE ('%' + @FilterByObjectName + '%')))
+         @FilterByObjectName = '' OR [object].[name]    COLLATE SQL_Latin1_General_CP1_CI_AS LIKE ('%' + @FilterByObjectName + '%')
+      OR @FilterByObjectName = '' OR [parameter].[name] COLLATE SQL_Latin1_General_CP1_CI_AS LIKE ('%' + @FilterByObjectName + '%')
+      OR @FilterByObjectName = '' OR [column].[name]    COLLATE SQL_Latin1_General_CP1_CI_AS LIKE ('%' + @FilterByObjectName + '%')))
   AND (NOT EXISTS (SELECT ObjectType FROM #Temp_SelectedObjectTypes) OR [object].TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
   AND (@FilterByType          = '' OR [type].NAME LIKE ('%' + @FilterByType + '%'))
 ORDER BY [Name]
