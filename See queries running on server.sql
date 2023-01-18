@@ -1,10 +1,26 @@
 /**************************************************************************************
 
-  DESCRIPTION
-  -------------------------------------------------------------------------------------
-  This Script has as objective to make easier to see queries running on server.
+  Press "[F5]" to use the Script below.
 
+  ===================================================================================
+   Script Short Description
+  ===================================================================================
+
+  Running this Script you will visualize queries running on server and its:
+  - Content;
+  - Execution Plan;
+  - Command Type;
+  - When it Started.
+
+
+  ===================================================================================
+   Auxiliary Commands
+  ===================================================================================
+
+  -- See current active process:
   SP_WHO2 'active'
+
+  -- Kill process at current server:
   KILL <Kill Process with SPID, INT, >
 
 **************************************************************************************/
@@ -49,8 +65,8 @@ SELECT
       LOWER(SUBSTRING([process].[status], 2, LEN([process].[status]))) -- Making remaining letters lowercase
     ))
     + ' - '
-    -- Reference: https://learn.microsoft.com/en-us/sql/relational-databases/system-compatibility-views/sys-sysprocesses-transact-sql?view=sql-server-ver16
     +  (CASE
+          -- Reference: https://learn.microsoft.com/en-us/sql/relational-databases/system-compatibility-views/sys-sysprocesses-transact-sql?view=sql-server-ver16
           WHEN [process].[status] IN('dormant', 'sleeping') THEN 'SQL Server is resetting the session.'
           WHEN [process].[status] = 'running'               THEN 'The session is running one or more batches. When Multiple Active Result Sets (MARS) is enabled, a session can run multiple batches. For more information, see Using Multiple Active Result Sets (MARS).'
           WHEN [process].[status] = 'background'            THEN 'The session is running a background task, such as deadlock detection.'

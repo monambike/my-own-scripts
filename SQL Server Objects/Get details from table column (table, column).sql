@@ -1,11 +1,14 @@
 /**************************************************************************************
 
-  Press [CTRL]+[SHIFT]+[M] to define parameters and values to be used on this current
-  template.
+  Press "[CTRL] + [SHIFT] + [M]" to define parameters and values to be used on this current
+  template. Then press "[F5]" to use the Script below.
 
-  DESCRIPTION
-  -------------------------------------------------------------------------------------
-  This Script has as objective to make easier search for table and columns.
+  ===================================================================================
+   Script Short Description
+  ===================================================================================
+
+  Running this Script you will search for table and columns on current Database. You
+  can filter by them selecting template parameters "[CTRL] + [SHIFT] + [M]".
 
 **************************************************************************************/
 

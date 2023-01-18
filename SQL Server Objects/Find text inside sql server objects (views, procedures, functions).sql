@@ -1,16 +1,20 @@
 /**************************************************************************************
 
-  Pressione [CTRL]+[SHIFT]+[M] para definir os valores e parâmetros a serem utilizados
-  nesse template.
+  Press "[CTRL] + [SHIFT] + [M]" to define parameters and values to be used on this
+  current template. Then press "[F5]" to use the Script below.
 
-  DESCRIPTION
-  -------------------------------------------------------------------------------------
-  Esse Script tem como objetivo facilitar a procura por relatórios pelo seu nomes,
-  descrições e estado ativo ou inativo, bem como o grupo em que está.
+  ===================================================================================
+   Script Short Description
+  ===================================================================================
 
+  This Script has as objective make easier the search for content inside SQL Server
+  objects as view, stored procedures, functions.
+  You can filter by them selecting template parameters "[CTRL] + [SHIFT] + [M]".
 
-  SELECTED FILTERS
-  -------------------------------------------------------------------------------------
+  ===================================================================================
+   Selected Filters
+  ===================================================================================
+  
   Showing objects that..
   Have as name:         "<Filter by: Object Name, , >"
   Has in their content: "<Filter by: Object Content, , >"

@@ -1,21 +1,24 @@
 /**************************************************************************************
 
-  Press [CTRL]+[SHIFT]+[M] to define parameters and values to be used on this current
-  template.
+  Press "[CTRL] + [SHIFT] + [M]" to define parameters and values to be used on this current
+  template. Then press "[F5]" to use the Script below.
 
-  DESCRIPTION
-  -------------------------------------------------------------------------------------
-  This Script has as objective make easier the search for objects in SQL Server databases
-  such as Views, Procedures, Functions, Parameters, Tables and Columns.
-  After choosing all parameters, press [F5] to be able to filter by objects in current
-  database.
+  ===================================================================================
+   Script Short Description
+  ===================================================================================
+
+  Running this Script you will search for objects in SQL Server databases such as Views,
+  Procedures, Functions, Parameters, Tables and Columns.
+  You can filter by them selecting template parameters "[CTRL] + [SHIFT] + [M]".
 
   You can view a SQL Server object size using following command too:
-  EXEC sp_spaceused '<Filter by: Object Name, , >';
+  EXEC sp_spaceused '<Filter by: Object Name, , >'
 
 
-  SELECTED FILTERS
-  -------------------------------------------------------------------------------------
+  ===================================================================================
+   Selected Filters
+  ===================================================================================
+
   Showing objects that..
   Have as name:                     "<Filter by: Object Name, , >"
   That are from the type:           "<Filter by: Type Name  , , >"

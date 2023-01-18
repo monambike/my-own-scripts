@@ -3,8 +3,10 @@
   Press [CTRL]+[SHIFT]+[M] to define parameters and values to be used on this current
   template.
 
-  DESCRIPTION
-  -------------------------------------------------------------------------------------
+  ===================================================================================
+   Script Short Description
+  ===================================================================================
+
   This Script has as objective to make database size smaller compressing database log. You
   are going to compress "<Database name:, , >" log size.
 

@@ -3,15 +3,19 @@
   Press [CTRL]+[SHIFT]+[M] to define parameters and values to be used on this current
   template.
 
-  DESCRIPTION
-  -------------------------------------------------------------------------------------
+  ===================================================================================
+   Script Short Description
+  ===================================================================================
+
   This Scripts has as objective make easier database name update on SQL Server.
   After defining both databases names press [F5] to update it. After running this Script
   you will update the name from database "<Old database name, VARCHAR, >" to "<New database name, VARCHAR, >".
 
 
-  WARNING
-  -------------------------------------------------------------------------------------
+  ===================================================================================
+   Warning
+  ===================================================================================
+
   This Script will put the database in "Single User Mode" (disconnecting all other users
   and dropping all connections) and update its name.
 

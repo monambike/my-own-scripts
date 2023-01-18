@@ -1,14 +1,20 @@
 /**************************************************************************************
 
-  DESCRIPTION
-  -------------------------------------------------------------------------------------
+  Press "[F5]" to use the Script below.
+
+  ===================================================================================
+   Script Short Description
+  ===================================================================================
+
   This Script has as objective to see some informations about SQL Server databases such
   check last time database was accessed or used, collation, compatibility level, online state
   and others.
 
 
-  COMMANDS FOR CLEARING CACHE
-  -------------------------------------------------------------------------------------
+  ===================================================================================
+   Commands for Clearing Cache
+  ===================================================================================
+
   Run all the following commands to clear all Databases cache.
 
   DBCC FREEPROCCACHE

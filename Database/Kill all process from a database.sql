@@ -3,15 +3,18 @@
   Press [CTRL]+[SHIFT]+[M] to define parameters and values to be used on this current
   template.
 
+  ===================================================================================
+   Script Short Description
+  ===================================================================================
 
-  DESCRIPTION
-  -------------------------------------------------------------------------------------
   This script has the objective to kill all process from an specific database. You
   are going to kill everyone process from "<Database Name:, , >".
 
 
-  WARNING
-  -------------------------------------------------------------------------------------
+  ===================================================================================
+   Warning
+  ===================================================================================
+
   This script will kill everyone process from a database. Be aware that some applications
   may stop working and you may interrupt someone's work.
 
