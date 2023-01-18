@@ -7,8 +7,8 @@
    Script Short Description
   ===================================================================================
 
-  This Script has as objective to make database size smaller compressing database log. You
-  are going to compress "<Database name:, , >" log size.
+  This Script has as objective to make database size smaller compressing database
+  log. You are going to compress "<Database name:, , >" log size.
 
 **************************************************************************************/
 
