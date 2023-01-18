@@ -1,7 +1,7 @@
 /**************************************************************************************
 
-  Press [CTRL]+[SHIFT]+[M] to define parameters and values to be used on this current
-  template.
+  Press "[CTRL] + [SHIFT] + [M]" to define parameters and values to be used on this
+  current template. Then press "[F5]" to use the Script below.
 
   ===================================================================================
    Script Short Description
