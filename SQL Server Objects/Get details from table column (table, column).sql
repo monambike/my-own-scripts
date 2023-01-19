@@ -82,6 +82,17 @@ SELECT * FROM
     sys.tables              AS [table]
     INNER JOIN
     sys.default_constraints AS [df_constraint]    ON [df_constraint].[parent_object_id]    = [table].[object_id]
+  UNION ALL
+  SELECT
+    [table].[name]                     AS [Table Name]
+  , [ix_constraint].[name]             AS [Index Key Constraint]
+  , NULL                               AS [Constraint Create Date]
+  , STATS_DATE([ix_constraint].[object_id], [ix_constraint].[index_id]) AS [Constraint Modify Date]
+  FROM
+    sys.tables              AS [table]
+    inner join
+    sys.indexes             AS [ix_constraint]    ON [ix_constraint].[object_id]    = [table].[object_id]
+  WHERE [ix_constraint].[name] LIKE 'IX_%'
 ) AS [table_constraint]
 WHERE
   [table_constraint].[Table Name] NOT IN ('sysdiagrams')
@@ -91,4 +102,6 @@ ORDER BY
       WHEN [table_constraint].[Constraint Name] LIKE 'PK_%' THEN 0
       WHEN [table_constraint].[Constraint Name] LIKE 'FK_%' THEN 1
       WHEN [table_constraint].[Constraint Name] LIKE 'AK_%' THEN 2
+      WHEN [table_constraint].[Constraint Name] LIKE 'IX_%' THEN 3
+      WHEN [table_constraint].[Constraint Name] LIKE 'DF_%' THEN 4
     END
