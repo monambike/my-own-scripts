@@ -1,7 +1,7 @@
 /**************************************************************************************
 
-  Press "[CTRL] + [SHIFT] + [M]" to define parameters and values to be used on this current
-  template. Then press "[F5]" to use the Script below.
+  Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
+  "[F5]" to use the Script below.
 
   ===================================================================================
    Script Short Description
@@ -33,14 +33,14 @@
 **************************************************************************************/
 
 DECLARE
-    @FilterByObjectName                  AS VARCHAR(MAX) = '<Filter by: Object Name, VARCHAR, >'
-  , @FilterByType                        AS VARCHAR(MAX) = '<Filter by: Type Name, VARCHAR, >'
+  @FilterByObjectName                  AS VARCHAR(MAX) = '<Filter by: Object Name, VARCHAR, >'
+, @FilterByType                        AS VARCHAR(MAX) = '<Filter by: Type Name, VARCHAR, >'
     
-  , @OnlyShowProcedures                  AS BIT          = <Show only: Procedures                          , 0 - Not Show / 1 - Show, 0, 0>
-  , @OnlyShowViews                       AS BIT          = <Show only: Views                               , 0 - Not Show / 1 - Show, 0, 0>
-  , @OnlyShowFunctions                   AS BIT          = <Show only: Functions                           , 0 - Not Show / 1 - Show, 0, 0>
-  , @OnlyShowTables                      AS BIT          = <Show only: Tables                              , 0 - Not Show / 1 - Show, 0, 0>
-  , @OnlyShowObjectsWithSameAccentOnName AS BIT          = <Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowProcedures                  AS BIT          = <Show only: Procedures                          , 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowViews                       AS BIT          = <Show only: Views                               , 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowFunctions                   AS BIT          = <Show only: Functions                           , 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowTables                      AS BIT          = <Show only: Tables                              , 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowObjectsWithSameAccentOnName AS BIT          = <Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0, 0>
 
 -- VALIDATIONS
 ------------------------------------------------------------
@@ -66,14 +66,14 @@ END
 
 
 SELECT
-    [object].[object_id]                AS [ObjectID]
-  , [object].[name]                     AS [Name]
-  , [parameter].[name]                  AS [Parameter Name]
-  , [column].[name]                     AS [Column Name]
-  , [object].[type]                     AS [Type]
-  , [object].[type_desc]                AS [Type Description]
-  , [object].[create_date]              AS [Creation Date]
-  , [object].[modify_date]              AS [Modify Date]
+  [object].[object_id]                AS [ObjectID]
+, [object].[name]                     AS [Name]
+, [parameter].[name]                  AS [Parameter Name]
+, [column].[name]                     AS [Column Name]
+, [object].[type]                     AS [Type]
+, [object].[type_desc]                AS [Type Description]
+, [object].[create_date]              AS [Creation Date]
+, [object].[modify_date]              AS [Modify Date]
 FROM
   sys.all_objects AS [object]
   LEFT JOIN

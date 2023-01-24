@@ -1,7 +1,7 @@
 /**************************************************************************************
 
-  Press "[CTRL] + [SHIFT] + [M]" to define parameters and values to be used on this
-  current template. Then press "[F5]" to use the Script below.
+  Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
+  "[F5]" to use the Script below.
 
   ===================================================================================
    Script Short Description
@@ -17,16 +17,16 @@ DECLARE @DatabaseName VARCHAR(500) = '<Database name:, , >'
 
 DECLARE @Databases TABLE
 (
-    [Counter]         INT IDENTITY(1,1)
-  , [DatabaseName]    VARCHAR(500)
-  , [DatabaseLogName] VARCHAR(500)
+  [Counter]         INT          IDENTITY(1,1)
+, [DatabaseName]    VARCHAR(500)
+, [DatabaseLogName] VARCHAR(500)
 )
 
 INSERT INTO 
   @Databases
 SELECT 
-    [database].[name]    AS [DatabaseName]
-  , [master_file].[name] AS [DatabaseLogName]
+  [database].[name]    AS [DatabaseName]
+, [master_file].[name] AS [DatabaseLogName]
 FROM 
   [sys].[databases]    AS [database]
   INNER JOIN
@@ -37,16 +37,19 @@ WHERE
   AND [master_file].[file_id] = 2
 ORDER BY [database].[Name]
 
+
 DECLARE @DatabaseStart INT, @DatabaseEnd INT
-SELECT   @DatabaseStart = MIN([Counter])
-       , @DatabaseEnd   = MAX([Counter])
+SELECT
+  @DatabaseStart = MIN([Counter])
+, @DatabaseEnd   = MAX([Counter])
 FROM @Databases
+
 WHILE @DatabaseStart <= @DatabaseEnd
 BEGIN
-  DECLARE @DatabaseLogName NVARCHAR(500)
+  DECLARE @DatabaseLogName NVARCHAR(MAX)
   SELECT 
-      @DatabaseName    = [DatabaseName]
-    , @DatabaseLogName = [DatabaseLogName]
+    @DatabaseName    = [DatabaseName]
+  , @DatabaseLogName = [DatabaseLogName]
   FROM
     @Databases 
   WHERE
@@ -54,14 +57,13 @@ BEGIN
 
   PRINT @DatabaseName
   
-  DECLARE @CommandSQL NVARCHAR(4000)
-  SET @CommandSQL = ''
-  SET @CommandSQL = @CommandSQL + 'USE [' + @DatabaseName + '];' + char(13)
-  SET @CommandSQL = @CommandSQL + 'ALTER DATABASE [' + @DatabaseName + ']' + Char(13)
-  SET @CommandSQL = @CommandSQL + 'SET RECOVERY SIMPLE;' + Char(13)
-  SET @CommandSQL = @CommandSQL + 'DBCC SHRINKFILE('+ ''''+ @DatabaseLogName + '''' + ');' + Char(13)
-  SET @CommandSQL = @CommandSQL + 'ALTER DATABASE [' + @DatabaseName + ']' + Char(13)
-  SET @CommandSQL = @CommandSQL + 'SET RECOVERY FULL;' + Char(13) + Char(13)
+  DECLARE @CommandSQL AS NVARCHAR(MAX) = ''
+  SET @CommandSQL =            @CommandSQL + 'USE [' + @DatabaseName + '];'
+  SET @CommandSQL = CHAR(13) + @CommandSQL + 'ALTER DATABASE [' + @DatabaseName + ']'
+  SET @CommandSQL = CHAR(13) + @CommandSQL + 'SET RECOVERY SIMPLE;'
+  SET @CommandSQL = CHAR(13) + @CommandSQL + 'DBCC SHRINKFILE('+ ''''+ @DatabaseLogName + '''' + ');'
+  SET @CommandSQL = CHAR(13) + @CommandSQL + 'ALTER DATABASE [' + @DatabaseName + ']'
+  SET @CommandSQL = CHAR(13) + @CommandSQL + 'SET RECOVERY FULL;' + CHAR(13) + CHAR(13)
 
   EXECUTE (@CommandSQL)
   SET @DatabaseStart = @DatabaseStart + 1

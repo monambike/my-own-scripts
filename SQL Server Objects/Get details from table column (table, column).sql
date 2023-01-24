@@ -1,7 +1,7 @@
 /**************************************************************************************
 
-  Press "[CTRL] + [SHIFT] + [M]" to define parameters and values to be used on this current
-  template. Then press "[F5]" to use the Script below.
+  Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
+  "[F5]" to use the Script below.
 
   ===================================================================================
    Script Short Description
@@ -13,22 +13,22 @@
 **************************************************************************************/
 
 DECLARE
-    @TableName  AS VARCHAR(MAX) = '<Table Name, VARCHAR(MAX), >'
-  , @ColumnName AS VARCHAR(MAX) = '<Column Name, VARCHAR(MAX), >'
-  , @TypeName   AS VARCHAR(MAX) = '<Type Name, VARCHAR(MAX), >'
+  @TableName  AS VARCHAR(MAX) = '<Table Name, VARCHAR(MAX), >'
+, @ColumnName AS VARCHAR(MAX) = '<Column Name, VARCHAR(MAX), >'
+, @TypeName   AS VARCHAR(MAX) = '<Type Name, VARCHAR(MAX), >'
 
 SELECT
-    [table].[name]         AS [TableName]
-  , [column].[name]        AS [Field]
-  , [type].[name] 
-    + (CASE
-         WHEN [type].[name] IN ('CHAR', 'NTEXT', 'TEXT', 'VARCHAR') THEN '(' + CONVERT(VARCHAR, [column].[max_length])     + ')'
-         WHEN [type].[name] IN ('NCHAR', 'NVARCHAR')                THEN '(' + CONVERT(VARCHAR, [column].[max_length] / 2) + ')'
-         ELSE ''
-       END) AS [Type Name]
-  , CAST([column].[max_length]     AS VARCHAR) + 'bytes' AS [Size (Bytes)]
-  , CAST([column].[max_length] * 8 AS VARCHAR) + 'bits'  AS [Size (Bits)]
-  , [column].[is_nullable] AS [Nullable]
+  [table].[name]         AS [TableName]
+, [column].[name]        AS [Field]
+, [type].[name] 
+  + (CASE
+        WHEN [type].[name] IN ('CHAR', 'NTEXT', 'TEXT', 'VARCHAR') THEN '(' + CONVERT(VARCHAR, [column].[max_length])     + ')'
+        WHEN [type].[name] IN ('NCHAR', 'NVARCHAR')                THEN '(' + CONVERT(VARCHAR, [column].[max_length] / 2) + ')'
+        ELSE ''
+      END) AS [Type Name]
+, CAST([column].[max_length]     AS VARCHAR) + 'bytes' AS [Size (Bytes)]
+, CAST([column].[max_length] * 8 AS VARCHAR) + 'bits'  AS [Size (Bits)]
+, [column].[is_nullable] AS [Nullable]
 FROM
   sys.columns AS [column]
   INNER JOIN
@@ -44,40 +44,40 @@ WHERE
 SELECT * FROM
 (
   SELECT
-      [table].[name]                   AS [Table Name]
-    , [pk_ak_constraint].[name]        AS [Constraint Name]
-    , [pk_ak_constraint].[create_date] AS [Constraint Create Date]
-    , [pk_ak_constraint].[modify_date] AS [Constraint Modify Date]
+    [table].[name]                   AS [Table Name]
+  , [pk_ak_constraint].[name]        AS [Constraint Name]
+  , [pk_ak_constraint].[create_date] AS [Constraint Create Date]
+  , [pk_ak_constraint].[modify_date] AS [Constraint Modify Date]
   FROM
     sys.tables              AS [table]
     INNER JOIN
     sys.key_constraints     AS [pk_ak_constraint] ON [pk_ak_constraint].[parent_object_id] = [table].[object_id]
   UNION ALL
   SELECT
-      [table].[name]                   AS [Table Name]
-    , [fk_constraint].[name]           AS [Foreign Key Constraint]
-    , [fk_constraint].[create_date]    AS [Constraint Create Date]
-    , [fk_constraint].[modify_date]    AS [Constraint Modify Date]
+    [table].[name]                   AS [Table Name]
+  , [fk_constraint].[name]           AS [Foreign Key Constraint]
+  , [fk_constraint].[create_date]    AS [Constraint Create Date]
+  , [fk_constraint].[modify_date]    AS [Constraint Modify Date]
   FROM
     sys.tables              AS [table]
     INNER JOIN
     sys.foreign_keys        AS [fk_constraint]    ON [fk_constraint].[parent_object_id]    = [table].[object_id]
   UNION ALL
   SELECT
-      [table].[name]                   AS [Table Name]
-    , [ck_constraint].[name]           AS [Foreign Key Constraint]
-    , [ck_constraint].[create_date]    AS [Constraint Create Date]
-    , [ck_constraint].[modify_date]    AS [Constraint Modify Date]
+    [table].[name]                   AS [Table Name]
+  , [ck_constraint].[name]           AS [Foreign Key Constraint]
+  , [ck_constraint].[create_date]    AS [Constraint Create Date]
+  , [ck_constraint].[modify_date]    AS [Constraint Modify Date]
   FROM
     sys.tables              AS [table]
     INNER JOIN
     sys.check_constraints   AS [ck_constraint]    ON [ck_constraint].[parent_object_id]    = [table].[object_id]
   UNION ALL
   SELECT
-      [table].[name]                   AS [Table Name]
-    , [df_constraint].[name]           AS [Default Value Key Constraint]
-    , [df_constraint].[create_date]    AS [Constraint Create Date]
-    , [df_constraint].[modify_date]    AS [Constraint Modify Date]
+    [table].[name]                   AS [Table Name]
+  , [df_constraint].[name]           AS [Default Value Key Constraint]
+  , [df_constraint].[create_date]    AS [Constraint Create Date]
+  , [df_constraint].[modify_date]    AS [Constraint Modify Date]
   FROM
     sys.tables              AS [table]
     INNER JOIN
