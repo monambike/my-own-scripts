@@ -12,7 +12,7 @@
   You can filter by them selecting template parameters "[CTRL] + [SHIFT] + [M]".
 
   You can view a SQL Server object size using following command too:
-  EXEC sp_spaceused '<Filter by: Object Name, , >'
+  EXEC sp_spaceused '<Filter by: Object Name, SYSNAME, >'
 
 
   ===================================================================================
@@ -20,8 +20,8 @@
   ===================================================================================
 
   Showing objects that..
-  Have as name:                     "<Filter by: Object Name, , >"
-  That are from the type:           "<Filter by: Type Name  , , >"
+  Have as name:                     "<Filter by: Object Name, SYSNAME, >"
+  That are from the type:           "<Filter by: Type Name  , SYSNAME, >"
 
   Showing only.. (0 = No / 1 = Yes)
   Procedures:                       "<Show only: Procedures                          , 0 - Not Show / 1 - Show, 0>"
@@ -33,14 +33,14 @@
 **************************************************************************************/
 
 DECLARE
-  @FilterByObjectName                  AS VARCHAR(MAX) = '<Filter by: Object Name, VARCHAR, >'
-, @FilterByType                        AS VARCHAR(MAX) = '<Filter by: Type Name, VARCHAR, >'
+  @FilterByObjectName                  AS SYSNAME = '<Filter by: Object Name, SYSNAME, >'
+, @FilterByType                        AS SYSNAME = '<Filter by: Type Name ,  SYSNAME, >'
     
-, @OnlyShowProcedures                  AS BIT          = <Show only: Procedures                          , 0 - Not Show / 1 - Show, 0, 0>
-, @OnlyShowViews                       AS BIT          = <Show only: Views                               , 0 - Not Show / 1 - Show, 0, 0>
-, @OnlyShowFunctions                   AS BIT          = <Show only: Functions                           , 0 - Not Show / 1 - Show, 0, 0>
-, @OnlyShowTables                      AS BIT          = <Show only: Tables                              , 0 - Not Show / 1 - Show, 0, 0>
-, @OnlyShowObjectsWithSameAccentOnName AS BIT          = <Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowProcedures                  AS BIT     = <Show only: Procedures                          , 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowViews                       AS BIT     = <Show only: Views                               , 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowFunctions                   AS BIT     = <Show only: Functions                           , 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowTables                      AS BIT     = <Show only: Tables                              , 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowObjectsWithSameAccentOnName AS BIT     = <Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0, 0>
 
 -- VALIDATIONS
 ------------------------------------------------------------

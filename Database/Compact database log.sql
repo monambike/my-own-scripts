@@ -8,12 +8,12 @@
   ===================================================================================
 
   This Script has as objective to make database size smaller compressing database
-  log. You are going to compress "<Database name:, , >" log size.
+  log. You are going to compress "<Database Name, SYSNAME, >" log size.
 
 **************************************************************************************/
 
 SET NOCOUNT ON
-DECLARE @DatabaseName VARCHAR(500) = '<Database name:, , >'
+DECLARE @DatabaseName SYSNAME = '<Database Name, SYSNAME, >'
 
 DECLARE @Databases TABLE
 (

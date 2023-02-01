@@ -12,9 +12,9 @@
 **************************************************************************************/
 
 DECLARE
-  @SQLQuery       AS VARCHAR(MAX) = '<SQL Query, VARCHAR(MAX), >'
+  @SQLQuery       AS VARCHAR(MAX) = '<SQL Query       , VARCHAR(MAX), >'
 , @OutputFilePath AS VARCHAR(MAX) = '<Output File Path, VARCHAR(MAX), >'
-, @ServerName     AS VARCHAR(MAX) = '<Server Name, VARCHAR(MAX), >'
+, @ServerName     AS SYSNAME      = '<Server Name     , SYSNAME     , >'
 
 DECLARE @bcp AS VARCHAR(MAX) = 'bcp "' + @SQLQuery + ' " QUERYOUT "' + @OutputFilePath + '" -c -t ";" -r \n -S' + @ServerName + ''
 EXEC xp_cmdshell @bcp

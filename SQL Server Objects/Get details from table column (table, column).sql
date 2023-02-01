@@ -13,9 +13,9 @@
 **************************************************************************************/
 
 DECLARE
-  @TableName  AS VARCHAR(MAX) = '<Table Name, VARCHAR(MAX), >'
-, @ColumnName AS VARCHAR(MAX) = '<Column Name, VARCHAR(MAX), >'
-, @TypeName   AS VARCHAR(MAX) = '<Type Name, VARCHAR(MAX), >'
+  @TableName  AS SYSNAME = '<Table Name , SYSNAME, >'
+, @ColumnName AS SYSNAME = '<Column Name, SYSNAME, >'
+, @TypeName   AS SYSNAME = '<Type Name  , SYSNAME, >'
 
 SELECT
   [table].[name]         AS [TableName]

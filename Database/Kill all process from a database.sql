@@ -8,7 +8,7 @@
   ===================================================================================
 
   This script has the objective to kill all process from an specific database. You
-  are going to kill everyone process from "<Database Name:, , >".
+  are going to kill everyone process from "<Database Name, SYSNAME, >".
 
 
   ===================================================================================
@@ -22,7 +22,7 @@
 
 USE [master]
 
-DECLARE @Database SYSNAME = '<Database Name:, , >'
+DECLARE @Database SYSNAME = '<Database Name, SYSNAME, >'
 
 DECLARE @SPID INT
 SELECT @SPID = MIN([spid]) FROM [master].[dbo].[sysprocesses] WHERE DBID = DB_ID(@Database)
@@ -33,4 +33,4 @@ WHILE @SPID IS NOT NULL
     SELECT @SPID = MIN([spid]) FROM [master].[dbo].[sysprocesses] WHERE [dbid] = DB_ID(@Database) AND [spid] > @SPID
   END
 
-PRINT 'All process where killed from "<Database Name:, , >".'
+PRINT 'All process where killed from "<Database Name, SYSNAME, >".'

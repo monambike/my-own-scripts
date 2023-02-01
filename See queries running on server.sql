@@ -26,8 +26,8 @@
 **************************************************************************************/
 
 DECLARE
-  @DatabaseName  AS VARCHAR(MAX) = '<Database Name, VARCHAR(MAX), >'
-, @LoginHostName AS VARCHAR(MAX) = '<Login or Host Name, VARCHAR(MAX), >'
+  @DatabaseName  AS SYSNAME = '<Database Name     , SYSNAME, >'
+, @LoginHostName AS SYSNAME = '<Login or Host Name, SYSNAME, >'
 
 SELECT
 -- (Begin) Converting miliseconds to days, hours, minutes and seconds dd:HH:mm:ss

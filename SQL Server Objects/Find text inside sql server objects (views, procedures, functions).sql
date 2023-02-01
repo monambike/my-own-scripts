@@ -16,8 +16,8 @@
   ===================================================================================
   
   Showing objects that..
-  Have as name:         "<Filter by: Object Name, , >"
-  Has in their content: "<Filter by: Object Content, , >"
+  Have as name:         "<Filter by: Object Name   , SYSNAME, >"
+  Has in their content: "<Filter by: Object Content, SYSNAME, >"
 
   Showing only.. (0 = No / 1 = Yes)
   Procedures:                       "<Show only: Procedures, 0 - Not Show / 1 - Show, 0>"
@@ -27,12 +27,12 @@
 **************************************************************************************/
 
 DECLARE
-    @ObjectContent      AS VARCHAR(MAX) = '<Filter by: Object Content, , >'
-  , @ObjectName         AS VARCHAR(MAX) = '<Filter by: Object Name, , >'
+  @ObjectContent      AS SYSNAME = '<Filter by: Object Content, SYSNAME, >'
+, @ObjectName         AS SYSNAME = '<Filter by: Object Name   , SYSNAME, >'
 
-  , @OnlyShowProcedures AS BIT          = <Show only: Procedures, BIT, 0>
-  , @OnlyShowViews      AS BIT          = <Show only: Views, BIT, 0>
-  , @OnlyShowFunctions  AS BIT          = <Show only: Functions, BIT, 0>
+, @OnlyShowProcedures AS BIT     = <Show only: Procedures, BIT, 0>
+, @OnlyShowViews      AS BIT     = <Show only: Views     , BIT, 0>
+, @OnlyShowFunctions  AS BIT     = <Show only: Functions , BIT, 0>
 
 -- VALIDATIONS
 ------------------------------------------------------------
@@ -55,15 +55,16 @@ BEGIN -- Validations
 END
 
 SELECT
-    [object].[Name]  AS [Object Name]
-  , [object].[Type]  AS [Object Type]
-  , [comment].[Text] AS [Object Content]
+  [object].[name]  AS [Object Name]
+, [object].[type]  AS [Object Type]
+, [comment].[text] AS [Object Content]
 FROM
   [sysobjects] [object]
   INNER JOIN
   [syscomments] [comment] ON [object].[id] = [comment].[id]
 WHERE
-  [object].[name]      LIKE  '%' + @ObjectName + '%'
+  [object].[name]      LIKE  '%' + @ObjectName    + '%'
   AND [comment].[Text] LIKE  '%' + @ObjectContent + '%'
   AND (NOT EXISTS (SELECT ObjectType FROM #Temp_SelectedObjectTypes) OR [object].TYPE IN (SELECT ObjectType FROM #Temp_SelectedObjectTypes))
 ORDER BY [object].[Name]
+GO
