@@ -22,7 +22,7 @@ EXEC xp_cmdshell @bcp
 
 IF NOT EXISTS(SELECT * FROM sys.tables a where a.name = 'tmp_testenfeRejeicao')
 	create table tmp_testenfeRejeicao(int_codstatus int, str_Rejeicao Varchar(MAX))
-	--DROP TABLE tmp_testenfeRejeicao
+	/*DROP TABLE tmp_testenfeRejeicao*/
 
 /* DECLARAÇÃO DAS VARIÁVEIS, TABELAS TEMPORÁRIAS ABAIXO DAS VARIÁVEIS NATURAIS */
 DECLARE	
