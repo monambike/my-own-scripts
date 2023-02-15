@@ -48,9 +48,9 @@ BEGIN -- Validations
   -- Show Only..
   ------------------------------------------------------------
   -- If table not exists, create it
-  IF OBJECT_ID('tempdb..#Temp_SelectedObjectTypes') IS NULL
-    CREATE TABLE #Temp_SelectedObjectTypes ( ObjectType NVARCHAR(2) COLLATE Latin1_General_CI_AS_KS_WS )
-  TRUNCATE TABLE #Temp_SelectedObjectTypes
+  IF OBJECT_ID('tempdb..#Temp_SelectedObjectTypes') IS NOT NULL
+    DROP TABLE #Temp_SelectedObjectTypes
+  CREATE TABLE #Temp_SelectedObjectTypes ( ObjectType NVARCHAR(2) COLLATE Latin1_General_CI_AS_KS_WS )
 
   -- Fills temporary table with selected filters for searching by
   -- object type

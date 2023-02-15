@@ -18,17 +18,18 @@ DECLARE
 , @TypeName   AS SYSNAME = '<Type Name  , SYSNAME, >'
 
 SELECT
-  [table].[name]         AS [TableName]
-, [column].[name]        AS [Field]
+  [table].[name]         AS "TableName"
+, [column].[name]        AS "Field"
 , [type].[name] 
   + (CASE
         WHEN [type].[name] IN ('CHAR', 'NTEXT', 'TEXT', 'VARCHAR') THEN '(' + CONVERT(VARCHAR, [column].[max_length])     + ')'
         WHEN [type].[name] IN ('NCHAR', 'NVARCHAR')                THEN '(' + CONVERT(VARCHAR, [column].[max_length] / 2) + ')'
         ELSE ''
-      END) AS [Type Name]
-, CAST([column].[max_length]     AS VARCHAR) + 'bytes' AS [Size (Bytes)]
-, CAST([column].[max_length] * 8 AS VARCHAR) + 'bits'  AS [Size (Bits)]
+      END) AS "Type Name"
+, CAST([column].[max_length]     AS VARCHAR) + 'bytes' AS "Size (Bytes)"
+, CAST([column].[max_length] * 8 AS VARCHAR) + 'bits'  AS "Size (Bits)"
 , [column].[is_nullable] AS [Nullable]
+, 'SELECT ' + [column].[name] + ', * FROM ' + [table].[name] AS "Select"
 FROM
   sys.columns AS [column]
   INNER JOIN
@@ -44,50 +45,50 @@ WHERE
 SELECT * FROM
 (
   SELECT
-    [table].[name]                   AS [Table Name]
-  , [pk_ak_constraint].[name]        AS [Constraint Name]
-  , [pk_ak_constraint].[create_date] AS [Constraint Create Date]
-  , [pk_ak_constraint].[modify_date] AS [Constraint Modify Date]
+    [table].[name]                   AS "Table Name"
+  , [pk_ak_constraint].[name]        AS "Constraint Name"
+  , [pk_ak_constraint].[create_date] AS "Constraint Create Date"
+  , [pk_ak_constraint].[modify_date] AS "Constraint Modify Date"
   FROM
     sys.tables              AS [table]
     INNER JOIN
     sys.key_constraints     AS [pk_ak_constraint] ON [pk_ak_constraint].[parent_object_id] = [table].[object_id]
   UNION ALL
   SELECT
-    [table].[name]                   AS [Table Name]
-  , [fk_constraint].[name]           AS [Foreign Key Constraint]
-  , [fk_constraint].[create_date]    AS [Constraint Create Date]
-  , [fk_constraint].[modify_date]    AS [Constraint Modify Date]
+    [table].[name]                   AS "Table Name"
+  , [fk_constraint].[name]           AS "Foreign Key Constraint"
+  , [fk_constraint].[create_date]    AS "Constraint Create Date"
+  , [fk_constraint].[modify_date]    AS "Constraint Modify Date"
   FROM
     sys.tables              AS [table]
     INNER JOIN
     sys.foreign_keys        AS [fk_constraint]    ON [fk_constraint].[parent_object_id]    = [table].[object_id]
   UNION ALL
   SELECT
-    [table].[name]                   AS [Table Name]
-  , [ck_constraint].[name]           AS [Foreign Key Constraint]
-  , [ck_constraint].[create_date]    AS [Constraint Create Date]
-  , [ck_constraint].[modify_date]    AS [Constraint Modify Date]
+    [table].[name]                   AS "Table Name"
+  , [ck_constraint].[name]           AS "Foreign Key Constraint"
+  , [ck_constraint].[create_date]    AS "Constraint Create Date"
+  , [ck_constraint].[modify_date]    AS "Constraint Modify Date"
   FROM
     sys.tables              AS [table]
     INNER JOIN
     sys.check_constraints   AS [ck_constraint]    ON [ck_constraint].[parent_object_id]    = [table].[object_id]
   UNION ALL
   SELECT
-    [table].[name]                   AS [Table Name]
-  , [df_constraint].[name]           AS [Default Value Key Constraint]
-  , [df_constraint].[create_date]    AS [Constraint Create Date]
-  , [df_constraint].[modify_date]    AS [Constraint Modify Date]
+    [table].[name]                   AS "Table Name"
+  , [df_constraint].[name]           AS "Default Value Key Constraint"
+  , [df_constraint].[create_date]    AS "Constraint Create Date"
+  , [df_constraint].[modify_date]    AS "Constraint Modify Date"
   FROM
     sys.tables              AS [table]
     INNER JOIN
     sys.default_constraints AS [df_constraint]    ON [df_constraint].[parent_object_id]    = [table].[object_id]
   UNION ALL
   SELECT
-    [table].[name]                     AS [Table Name]
-  , [ix_constraint].[name]             AS [Index Key Constraint]
-  , NULL                               AS [Constraint Create Date]
-  , STATS_DATE([ix_constraint].[object_id], [ix_constraint].[index_id]) AS [Constraint Modify Date]
+    [table].[name]                     AS "Table Name"
+  , [ix_constraint].[name]             AS "Index Key Constraint"
+  , NULL                               AS "Constraint Create Date"
+  , STATS_DATE([ix_constraint].[object_id], [ix_constraint].[index_id]) AS "Constraint Modify Date"
   FROM
     sys.tables              AS [table]
     inner join
