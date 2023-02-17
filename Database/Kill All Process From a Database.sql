@@ -24,6 +24,13 @@ USE [master]
 
 DECLARE @Database SYSNAME = '<Database Name, SYSNAME, >'
 
+/* Verifica se o usuário informou a base */
+IF @Database IN ('', CHAR(60) + 'Database Name, SYSNAME, ' + CHAR(62))
+  BEGIN
+    PRINT 'É necessário informar uma base para matar os processos.'
+    RETURN
+  END
+
 DECLARE @SPID INT
 SELECT @SPID = MIN([spid]) FROM [master].[dbo].[sysprocesses] WHERE DBID = DB_ID(@Database)
 

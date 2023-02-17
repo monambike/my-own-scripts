@@ -25,40 +25,32 @@ DECLARE @Databases TABLE
 INSERT INTO 
   @Databases
 SELECT 
-  [database].[name]    AS [DatabaseName]
-, [master_file].[name] AS [DatabaseLogName]
+  [database].[name]    AS "DatabaseName"
+, [master_file].[name] AS "DatabaseLogName"
 FROM 
-  [sys].[databases]    AS [database]
+  [sys].[databases]    AS "database"
   INNER JOIN
-  [sys].[master_files] AS [master_file] ON [database].[database_id] = [master_file].[database_id]
+  [sys].[master_files] AS "master_file" ON [database].[database_id] = [master_file].[database_id]
 WHERE 
-      [database].[name]       = @DatabaseName
-  AND [database].[name]       NOT IN('master','model','msdb', 'tempdb')
+      [database].[name] = @DatabaseName AND [database].[name] NOT IN('master','model','msdb', 'tempdb')
   AND [master_file].[file_id] = 2
 ORDER BY [database].[Name]
 
 
 DECLARE @DatabaseStart INT, @DatabaseEnd INT
-SELECT
-  @DatabaseStart = MIN([Counter])
-, @DatabaseEnd   = MAX([Counter])
-FROM @Databases
+SELECT @DatabaseStart = MIN([Counter]), @DatabaseEnd = MAX([Counter]) FROM @Databases
 
 WHILE @DatabaseStart <= @DatabaseEnd
 BEGIN
   DECLARE @DatabaseLogName NVARCHAR(MAX)
-  SELECT 
-    @DatabaseName    = [DatabaseName]
-  , @DatabaseLogName = [DatabaseLogName]
-  FROM
-    @Databases 
-  WHERE
-    [Counter] = @DatabaseStart
+  SELECT @DatabaseName = [DatabaseName], @DatabaseLogName = [DatabaseLogName]
+  FROM @Databases 
+  WHERE [Counter] = @DatabaseStart
 
   PRINT @DatabaseName
   
   DECLARE @CommandSQL AS NVARCHAR(MAX) = ''
-  SET @CommandSQL =            @CommandSQL + 'USE [' + @DatabaseName + '];'
+  SET @CommandSQL =                          'USE [' + @DatabaseName + '];'
   SET @CommandSQL = CHAR(13) + @CommandSQL + 'ALTER DATABASE [' + @DatabaseName + ']'
   SET @CommandSQL = CHAR(13) + @CommandSQL + 'SET RECOVERY SIMPLE;'
   SET @CommandSQL = CHAR(13) + @CommandSQL + 'DBCC SHRINKFILE('+ ''''+ @DatabaseLogName + '''' + ');'
