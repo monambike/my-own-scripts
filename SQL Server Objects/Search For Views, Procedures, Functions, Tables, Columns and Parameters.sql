@@ -14,22 +14,6 @@
   You can view a SQL Server object size using following command too:
   EXEC sp_spaceused '<Filter by: Object Name, SYSNAME, >'
 
-
-  ===================================================================================
-   Selected Filters
-  ===================================================================================
-
-  Showing objects that..
-  Have as name:                     "<Filter by: Object Name, SYSNAME, >"
-  That are from the type:           "<Filter by: Type Name  , SYSNAME, >"
-
-  Showing only.. (0 = No / 1 = Yes)
-  Procedures:                       "<Show only: Procedures                          , 0 - Not Show / 1 - Show, 0>"
-  Views:                            "<Show only: Views                               , 0 - Not Show / 1 - Show, 0>"
-  Functions:                        "<Show only: Functions                           , 0 - Not Show / 1 - Show, 0>"
-  Tables:                           "<Show only: Tables                              , 0 - Not Show / 1 - Show, 0>"
-  Objects with same accent on name: "<Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0>"
-
 **************************************************************************************/
 
 DECLARE
