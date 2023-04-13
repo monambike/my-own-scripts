@@ -20,11 +20,11 @@ DECLARE
   @FilterByObjectName                  AS SYSNAME = '<Filter by: Object Name, SYSNAME, >'
 , @FilterByType                        AS SYSNAME = '<Filter by: Type Name ,  SYSNAME, >'
     
-, @OnlyShowProcedures                  AS BIT     = <Show only: Procedures                          , 0 - Not Show / 1 - Show, 0, 0>
-, @OnlyShowViews                       AS BIT     = <Show only: Views                               , 0 - Not Show / 1 - Show, 0, 0>
-, @OnlyShowFunctions                   AS BIT     = <Show only: Functions                           , 0 - Not Show / 1 - Show, 0, 0>
-, @OnlyShowTables                      AS BIT     = <Show only: Tables                              , 0 - Not Show / 1 - Show, 0, 0>
-, @OnlyShowObjectsWithSameAccentOnName AS BIT     = <Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0, 0>
+, @OnlyShowProcedures                  AS BIT     = <Show only: Procedures                          , 0 - Not Show / 1 - Show, 0>
+, @OnlyShowViews                       AS BIT     = <Show only: Views                               , 0 - Not Show / 1 - Show, 0>
+, @OnlyShowFunctions                   AS BIT     = <Show only: Functions                           , 0 - Not Show / 1 - Show, 0>
+, @OnlyShowTables                      AS BIT     = <Show only: Tables                              , 0 - Not Show / 1 - Show, 0>
+, @OnlyShowObjectsWithSameAccentOnName AS BIT     = <Show only: Objects with the same accent on name, 0 - Not Show / 1 - Show, 0>
 
 -- VALIDATIONS
 ------------------------------------------------------------
