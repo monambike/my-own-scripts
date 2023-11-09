@@ -1,27 +1,26 @@
 /**************************************************************************************
+Script created by @monambike. Please check https://github.com/monambike for more details,
+including the latest licensing information.
 
-  Press "[F5]" to use the Script below.
+Tip: Press "[F5]" to use the Script below.
 
-  ===================================================================================
-   Script Short Description
-  ===================================================================================
+===================================================================================
+SCRIPT SHORT DESCRIPTION
+===================================================================================
+Running this Script you will visualize queries running on server and its:
+- Content;
+- Execution Plan;
+- Command Type;
+- When it Started.
 
-  Running this Script you will visualize queries running on server and its:
-  - Content;
-  - Execution Plan;
-  - Command Type;
-  - When it Started.
+===================================================================================
+AUXILIARY COMMANDS
+===================================================================================
+-- See current active process:
+SP_WHO2 'active'
 
-
-  ===================================================================================
-   Auxiliary Commands
-  ===================================================================================
-
-  -- See current active process:
-  SP_WHO2 'active'
-
-  -- Kill process at current server:
-  KILL <Kill Process with SPID, INT, >
+-- Kill process at current server:
+KILL <Kill Process with SPID, INT, >
 
 **************************************************************************************/
 

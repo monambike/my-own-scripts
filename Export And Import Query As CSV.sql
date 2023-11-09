@@ -1,13 +1,14 @@
 /**************************************************************************************
+Script created by @monambike. Please check https://github.com/monambike for more details,
+including the latest licensing information.
 
-  Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
-  "[F5]" to use the Script below.
+Tip: Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
+"[F5]" to use the Script below.
 
-  ===================================================================================
-   Script Short Description
-  ===================================================================================
-
-  This Script has as objective to help you to make a query output as a file.
+===================================================================================
+SCRIPT SHORT DESCRIPTION
+===================================================================================
+This Script has as objective to help you to make a query output as a file.
 
 **************************************************************************************/
 

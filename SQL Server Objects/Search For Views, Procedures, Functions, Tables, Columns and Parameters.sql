@@ -1,18 +1,19 @@
 /**************************************************************************************
+Script created by @monambike. Please check https://github.com/monambike for more details,
+including the latest licensing information.
 
-  Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
-  "[F5]" to use the Script below.
+Tip: Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
+"[F5]" to use the Script below.
 
-  ===================================================================================
-   Script Short Description
-  ===================================================================================
+===================================================================================
+SCRIPT SHORT DESCRIPTION
+===================================================================================
+Running this Script you will search for objects in SQL Server databases such as Views,
+Procedures, Functions, Parameters, Tables and Columns.
+You can filter by them selecting template parameters "[CTRL] + [SHIFT] + [M]".
 
-  Running this Script you will search for objects in SQL Server databases such as Views,
-  Procedures, Functions, Parameters, Tables and Columns.
-  You can filter by them selecting template parameters "[CTRL] + [SHIFT] + [M]".
-
-  You can view a SQL Server object size using following command too:
-  EXEC sp_spaceused '<Filter by: Object Name, SYSNAME, >'
+You can view a SQL Server object size using following command too:
+EXEC sp_spaceused '<Filter by: Object Name, SYSNAME, >'
 
 **************************************************************************************/
 

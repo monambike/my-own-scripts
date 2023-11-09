@@ -1,22 +1,21 @@
 /**************************************************************************************
+Script created by @monambike. Please check https://github.com/monambike for more details,
+including the latest licensing information.
 
-  Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
-  "[F5]" to use the Script below.
+Tip: Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
+"[F5]" to use the Script below.
 
-  ===================================================================================
-   Script Short Description
-  ===================================================================================
+===================================================================================
+SCRIPT SHORT DESCRIPTION
+===================================================================================
+This script has the objective to kill all process from an specific database. You
+are going to kill everyone process from "<Database Name, SYSNAME, >".
 
-  This script has the objective to kill all process from an specific database. You
-  are going to kill everyone process from "<Database Name, SYSNAME, >".
-
-
-  ===================================================================================
-   Warning
-  ===================================================================================
-
-  This script will kill everyone process from a database. Be aware that some applications
-  may stop working and you may interrupt someone's work.
+===================================================================================
+WARNING
+===================================================================================
+This script will kill everyone process from a database. Be aware that some applications
+may stop working and you may interrupt someone's work.
 
 **************************************************************************************/
 

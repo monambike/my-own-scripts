@@ -1,15 +1,16 @@
 /**************************************************************************************
+Script created by @monambike. Please check https://github.com/monambike for more details,
+including the latest licensing information.
 
-  Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
-  "[F5]" to use the Script below.
+Tip: Press "[CTRL] + [SHIFT] + [M]" to specify values for template parameters. Then press
+"[F5]" to use the Script below.
 
-  ===================================================================================
-   Script Short Description
-  ===================================================================================
-
-  This Script has as objective make easier the search for content inside SQL Server
-  objects as view, stored procedures, functions.
-  You can filter by them selecting template parameters "[CTRL] + [SHIFT] + [M]".
+===================================================================================
+SCRIPT SHORT DESCRIPTION
+===================================================================================
+This Script has as objective make easier the search for content inside SQL Server
+objects as view, stored procedures, functions.
+You can filter by them selecting template parameters "[CTRL] + [SHIFT] + [M]".
 
 **************************************************************************************/
 

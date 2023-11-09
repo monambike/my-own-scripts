@@ -1,14 +1,15 @@
 /**************************************************************************************
+Script created by @monambike. Please check https://github.com/monambike for more details,
+including the latest licensing information.
 
-  Press "[F5]" to use the Script below.
+Tip: Press "[F5]" to use the Script below.
 
-  ===================================================================================
-   Script Short Description
-  ===================================================================================
-
-  This Script has as objective to see some informations about SQL Server databases such
-  check last time database was accessed or used, collation, compatibility level, online state
-  and others.
+===================================================================================
+SCRIPT SHORT DESCRIPTION
+===================================================================================
+This Script has as objective to see some informations about SQL Server databases such
+check last time database was accessed or used, collation, compatibility level, online state
+and others.
 
 **************************************************************************************/
 
